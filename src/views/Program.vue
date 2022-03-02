@@ -50,10 +50,10 @@
             {{ row.item.vacant }}/{{row.item.total}}
           </td>
           <td>
-            <a href="https://git.ustc.edu.cn/hexuustc/fpgaol-examples">FPGAOL v1.1 manual</a>
+            <a href="https://git.ustc.edu.cn/hexuustc/fpgaol-examples" target="_blank">FPGAOL v1.1 manual</a>
           </td>
           <td>
-           <a href="https://fpgaol.ustc.edu.cn/download/fpgaol1.xdc">fpgaol1.xdc</a>
+           <a href="https://fpgaol.ustc.edu.cn/download/fpgaol1.xdc" target="_blank">fpgaol1.xdc</a>
            </td>
           <td>
             <div class="d-flex">
@@ -85,7 +85,7 @@
           </th>
           <td>
             <div v-if = "row.index == 3">
-                <a v-bind:href="row.item.type1">enter fpgaol1</a>
+                <a v-bind:href="row.item.type1" target="_blank">enter fpgaol1</a>
             </div>
             <div v-else>
                 {{ row.item.type1 }}
@@ -93,7 +93,7 @@
           </td>
           <td>
             <div v-if = "row.index == 3">
-                <a v-bind:href="row.item.type2">enter fpgaol2</a>
+                <a v-bind:href="row.item.type2" target="_blank">enter fpgaol2</a>
             </div>
             <div v-else>
                 {{ row.item.type2 }}
@@ -101,7 +101,7 @@
           </td>
           <td>
             <div v-if = "row.index == 3">
-                <a v-bind:href="row.item.type3">enter zybo</a>
+                <a v-bind:href="row.item.type3" target="_blank">enter zybo</a>
             </div>
             <div v-else>
                 {{ row.item.type3 }}

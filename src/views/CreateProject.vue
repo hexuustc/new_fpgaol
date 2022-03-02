@@ -19,71 +19,137 @@
             <div class="row">
                 <div class="col-6">
                     <base-input
-                          label="JobID"
+                          label="工程名"
                           placeholder="0000"
                           input-classes="form-control-alternative"
-                          v-model="JobId"
+                          v-model="ProjectName"
                         />
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <div>
                         <label class="form-control-label">
-                            FPGA Chip
+                            布局
                         </label>
                     </div>
-                    <select class="form-control form-control-alternative" v-model="fpga">
-                        <option value="xc7a100tcsg324-1">xc7a100tcsg324-1</option>
-                        <option disabled>not supported</option>
-                    </select>
                 </div>
             
-                <div class="form-group col-12">
-                    <center>
-                        <div>
-                                <label class="form-control-label">
-                                    File Select
-                                </label>
-                        </div>
-        
-                    <div>
-                    <span class="btn form-control form-control-alternative">
-                    <span>点击上传</span>
-                        <input class="form-control form-control-alternative" :style="lll" accept=".zip" type="file" ref="file" @change="selectFile" />
-                    </span>
-                    </div>
-                    <div>
-                            <div class="form-control-label">
-                                {{filename}}
-                            </div>
-                    </div>
-        
-        
-                    </center>
+                <div class="col-12">
+                        <card header-classes="bg-transparent">
+                          <div class="row">
+                              <div class="col-3">
+                              </div>
+                              <div class="col-6 text-center">
+                                <center>
+                                    <div>
+                                        <label class="form-control-label">
+                                            已有布局
+                                        </label>
+                                    </div>
+                                    <select class="form-control form-control-alternative" v-model="layout">
+                                        <option value="默认">默认</option>
+                                        <option disabled>not supported</option>
+                                    </select>
+                                </center>
+                              </div>
+                              <div class="col-3">
+                              </div>
+                              <div class="mt-5 row col-12">
+
+
+
+                                <div class="col-1 mr--4">
+                                  LED:
+                                </div>
+                                <div class="col-1 mr--5">
+                                  <base-button size="sm" type="info" @click="LED=LED-1"
+                                  > - </base-button>
+                                </div>
+                                <div class="col-1 text-center mr--4">
+                                  <center>
+                                      <base-input
+                                        placeholder="0"
+                                        input-classes="form-control-alternative"
+                                        v-model="LED"
+                                      />
+                                  </center>
+                                </div>
+                                <div class="col-1 mr">
+                                  <base-button size="sm" type="info" @click="LED=LED+1"
+                                  > + </base-button>
+                                </div>
+
+
+
+                                <div class="col-1 mr--4">
+                                  SW:
+                                </div>
+                                <div class="col-1 mr--5">
+                                  <base-button size="sm" type="info" @click="SW=SW-1"
+                                  > - </base-button>
+                                </div>
+                                <div class="col-1 text-center mr--4">
+                                  <center>
+                                      <base-input
+                                        placeholder="0"
+                                        input-classes="form-control-alternative"
+                                        v-model="SW"
+                                      />
+                                  </center>
+                                </div>
+                                <div class="col-1 mr">
+                                  <base-button size="sm" type="info" @click="SW=SW+1"
+                                  > + </base-button>
+                                </div>
+
+
+
+                                <div class="col-1 mr--4">
+                                  BTN:
+                                </div>
+                                <div class="col-1 mr--5">
+                                  <base-button size="sm" type="info" @click="BTN=BTN-1"
+                                  > - </base-button>
+                                </div>
+                                <div class="col-1 text-center mr--4">
+                                  <center>
+                                      <base-input
+                                        placeholder="0"
+                                        input-classes="form-control-alternative"
+                                        v-model="BTN"
+                                      />
+                                  </center>
+                                </div>
+                                <div class="col-1 mr">
+                                  <base-button size="sm" type="info" @click="BTN=BTN+1"
+                                  > + </base-button>
+                                </div>
+                              </div>
+
+
+                              <div class="col-1 mr--4">
+                                  SEG:
+                                </div>
+                                <div class="col-1 mr--5">
+                                  <base-button size="sm" type="info" @click="SEG=SEG-1"
+                                  > - </base-button>
+                                </div>
+                                <div class="col-1 text-center mr--4">
+                                  <center>
+                                      <base-input
+                                        placeholder="0"
+                                        input-classes="form-control-alternative"
+                                        v-model="SEG"
+                                      />
+                                  </center>
+                                </div>
+                                <div class="col-1 mr">
+                                  <base-button size="sm" type="info" @click="SEG=SEG+1"
+                                  > + </base-button>
+                                </div>
+                              
+                          </div>
+                        </card>
                 </div>
-            
-            <div class="col-12">
-            <center>
-                <base-button size="lg" type="info" @click="submit"
-                    >submit</base-button
-                >
-            </center>
-            </div> 
-            <div class="col-xl-6 mb-4 mb-xl-0 mt-4">
-                <card header-classes="bg-transparent">
-                  <template v-slot:header>
-                    <div class="row align-items-center">
-                      <div class="col">
-                        <h6 class="form-control-label text-center ls-1 mb-1 h6">返回信息</h6>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="row">
-                  <p class="text-center col-12">
-                     {{submit_message}}
-                  </p>
-                  </div>
-                </card>
-            </div>
             
             </div>
           </card>
@@ -101,78 +167,23 @@
 // Charts
 
 
-import axios from 'axios';
-var form = new FormData();
 
 export default {
   components: {
   },
   data() {
     return {
-        JobId: "0000",
-        fpga: 'xc7a100tcsg324-1',
-        submit_message: 'no submit',
-        filename: '未选择文件',
-        selectFileobj: null,
-        lll: {
-            position: "absolute",
-            left: "0px",
-            top: "0px",
-            opacity: 0
-        },
-        pagination: {
-        default: 1
-        },
-        hhh: 0,
-        value: 2,
-        hideArrow: false,
-        joblist:[[]]
+        ProjectName: "0000",
+        layout: "默认",
+        LED: 0,
+        SW: 0,
+        BTN: 0,
+        SEG: 0,
+        UART: 0,
+        HEX: 0
       };
   },
-  mounted(){
-    axios
-    .get('http://202.38.79.96:18888/api_joblist')
-    .then(response => (
-    this.joblist = (response.data['data'])
-    ))
-    },
   methods: {
-      selectFile() {
-       console.log(this.$refs["file"].files);
-       console.log(this.$refs["file"].files[0]);
-       if (this.$refs["file"].files[0]) {
-         this.filename = this.$refs["file"].files[0].name;
-         this.selectFileobj = this.$refs["file"].files[0];
-       } else {
-         this.filename = "";
-       }
-     },
-      submit(){
-        form.append('inputJobId', this.JobId),
-        form.append('inputFPGA', this.fpga);
-        if (this.selectFileobj == null){
-            this.submit_message = "Please select a zip file!"
-        }
-        else {
-        form.append('inputZipFile', this.selectFileobj),
-            axios
-            .post('http://202.38.79.96:18888/submit', form)
-            .then(response => (
-                this.submit_message = (response.data)['msg']
-              ))};
-        axios
-    .get('http://202.38.79.96:18888/api_joblist')
-    .then(response => (
-    this.joblist = (response.data['data'])
-    ))
-      },
-      receive(val){
-          this.value=val
-      },
-      downloadEvt(url) {
-      window.open(url, '_self');
-    }
-    
   }
 };
 </script>
