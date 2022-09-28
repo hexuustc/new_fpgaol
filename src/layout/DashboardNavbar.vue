@@ -27,11 +27,11 @@
               <span class="avatar avatar-sm rounded-circle">
                 <img
                   alt="Image placeholder"
-                  src="img/theme/team-4-800x800.jpg"
+                  src="https://portrait.gitee.com/uploads/avatars/user/2851/8555385_hexuustc_1652058906.png"
                 />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm font-weight-bold">Jessica Jones</span>
+                <span class="mb-0 text-sm font-weight-bold">{{username}}</span>
               </div>
             </div>
           </template>
@@ -55,23 +55,40 @@
             <span>Support</span>
           </router-link>
           <div class="dropdown-divider"></div>
-          <router-link to="/profile" class="dropdown-item">
+          <div class="dropdown-item" @click="logout">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
-          </router-link>
+          </div>
         </base-dropdown>
       </li>
     </ul>
   </base-nav>
 </template>
 <script>
+
+import axios from 'axios';
+var form = new FormData();
+
 export default {
   data() {
     return {
       activeNotifications: false,
       showMenu: false,
       searchQuery: "",
+      res:{},
+      username:"Jessica Jones"
     };
+  },
+  mounted () {
+    let token = localStorage.getItem('Authorization');
+    form.append('token', token)
+    axios
+     .post('http://202.38.79.96:9001/profile',form)
+     .then(response => (
+         console.log(response.data),
+         this.res = response.data,
+         this.test()
+     ))
   },
   methods: {
     toggleSidebar() {
@@ -83,6 +100,23 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
+    logout(){
+      localStorage.removeItem('Authorization');
+      axios
+     .get('http://cdacount.cdinfotech.top/sso/logout?userId=7')
+     .then(response => (
+         console.log(response.data),
+         this.$router.push('/login')
+     ))
+    },
+    test(){
+        if (this.res['code']==1){
+          this.username=this.res['username']
+        }
+        else{
+          this.logout()
+        }
+    }
   },
 };
 </script>

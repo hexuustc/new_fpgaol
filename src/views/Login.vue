@@ -7,17 +7,11 @@
             <small>Sign in with</small>
           </div>
           <div class="btn-wrapper text-center">
-            <a href="#" class="btn btn-neutral btn-icon">
+            <a :href="login_href"  class="btn btn-neutral btn-icon">
               <span class="btn-inner--icon"
                 ><img src="img/icons/common/github.svg"
               /></span>
-              <span class="btn-inner--text">Github</span>
-            </a>
-            <a href="#" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon"
-                ><img src="img/icons/common/google.svg"
-              /></span>
-              <span class="btn-inner--text">Google</span>
+              <span class="btn-inner--text">统一认证登录</span>
             </a>
           </div>
         </div>
@@ -74,8 +68,14 @@ export default {
         email: "",
         password: "",
       },
+      login_href:"#"
     };
   },
+  mounted(){
+    this.login_href="http://cdacount.cdinfotech.top/admin/login?redirect="+window.location.origin+"#/caslogin"
+    let token = localStorage.getItem('Authorization');
+    if(token) this.$router.push('/program2');
+  }
 };
 </script>
 <style></style>

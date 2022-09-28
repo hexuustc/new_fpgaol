@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"
+    class="navbar navbar-vertical fixed-left navbar-expand-md  navbar-light bg-white"
     id="sidenav-main"
   >
     <div class="container-fluid">
@@ -94,7 +94,7 @@
             </div>
           </div>
         </div>
-
+        
         <ul class="navbar-nav">
           <slot name="links"> </slot>
         </ul>
@@ -144,7 +144,7 @@ export default {
   props: {
     logo: {
       type: String,
-      default: "img/brand/green.png",
+      default: "img/brand/fpgaol.png",
       description: "Sidebar app logo",
     },
     autoClose: {

@@ -15,7 +15,7 @@
       <div class="container-fluid d-flex align-items-center">
         <div class="row">
           <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">Hello Jesse</h1>
+            <h1 class="display-2 text-white">Hello {{username}}</h1>
             <p class="text-white mt-0 mb-5">
               This is your profile page. You can see the progress you've made
               with your work and manage your projects or assigned tasks
@@ -35,7 +35,7 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="img/theme/team-4-800x800.jpg"
+                      src="https://portrait.gitee.com/uploads/avatars/user/2851/8555385_hexuustc_1652058906.png"
                       class="rounded-circle"
                     />
                   </a>
@@ -65,7 +65,7 @@
                       <span class="description">Friends</span>
                     </div>
                     <div>
-                      <span class="heading">10</span>
+                      <span class="heading">{{photos}}</span>
                       <span class="description">Photos</span>
                     </div>
                     <div>
@@ -77,23 +77,20 @@
               </div>
               <div class="text-center">
                 <h3>
-                  Jessica Jones<span class="font-weight-light">, 27</span>
+                  {{username}}<span class="font-weight-light">, {{age}}</span>
                 </h3>
                 <div class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i>Bucharest, Romania
                 </div>
                 <div class="h5 mt-4">
-                  <i class="ni business_briefcase-24 mr-2"></i>Solution Manager
-                  - Creative Tim Officer
+                  <i class="ni business_briefcase-24 mr-2"></i>{{job}}
                 </div>
                 <div>
-                  <i class="ni education_hat mr-2"></i>University of Computer
-                  Science
+                  <i class="ni education_hat mr-2"></i>{{school}}
                 </div>
                 <hr class="my-4" />
                 <p>
-                  Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick
-                  Murphy — writes, performs and records all of his own music.
+                  {{belief}}
                 </p>
                 <a href="#">Show more</a>
               </div>
@@ -229,6 +226,10 @@ A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
   </div>
 </template>
 <script>
+
+import axios from 'axios';
+var form = new FormData();
+
 export default {
   name: "user-profile",
   data() {
@@ -244,8 +245,51 @@ export default {
         zipCode: "",
         about: "",
       },
+      username:"",
+      age:"",
+      photos:"",
+      school:"",
+      job:"",
+      belief:"",
+      res:{}
     };
   },
+  mounted () {
+    let token = localStorage.getItem('Authorization');
+    form.append('token', token)
+    axios
+     .post('http://202.38.79.96:9001/profile',form)
+     .then(response => (
+         console.log(response.data),
+         this.res = response.data,
+         this.test()
+     ))
+  },
+  methods: {
+    logout(){
+      localStorage.removeItem('Authorization');
+      axios
+     .get('http://cdacount.cdinfotech.top/sso/logout?userId=7')
+     .then(response => (
+         console.log(response.data),
+         this.$router.push('/login')
+     ))
+    },
+    test(){
+        if (this.res['code']==1){
+          this.username=this.res['username'];
+          this.age=this.res['age'];
+          this.photos=this.res['photos'];
+          this.job=this.res['job'];
+          this.school=this.res['school'];
+          this.belief=this.res['belief'];
+        }
+        else{
+          this.logout()
+        }
+    }
+  }
+
 };
 </script>
 <style></style>

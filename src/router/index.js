@@ -11,16 +11,20 @@ import Tables from "../views/Tables.vue";
 import About from "../views/About.vue";
 import Home from "../views/Home.vue";
 import Program from "../views/Program.vue";
+import Program2 from "../views/Program2.vue";
 import Compile from "../views/Compile.vue";
 import CreateProject from "../views/CreateProject.vue";
+import CodeEdit from "../views/CodeEdit.vue";
+
 
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Caslogin from "../views/Caslogin.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/program",
+    redirect: "/program2",
     component: DashboardLayout,
     children: [
       {
@@ -64,6 +68,11 @@ const routes = [
         components: { default: Program },
       },
       {
+        path: "/program2",
+        name: "program2",
+        components: { default: Program2 },
+      },
+      {
         path: "/compile",
         name: "compile",
         components: { default: Compile },
@@ -72,6 +81,11 @@ const routes = [
         path: "/createproject",
         name: "createproject",
         components: { default: CreateProject },
+      },
+      {
+        path: "/codeedit",
+        name: "codeedit",
+        components: { default: CodeEdit },
       },
     ],
   },
@@ -92,12 +106,36 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/caslogin",
+    name: "caslogin",
+    components: { default: Caslogin },
+  },
+
 ];
+
 
 const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: "active",
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if ((to.path == '/login') || (to.path == '/caslogin')) {
+    console.log("I am in this");
+    next();
+  } else {
+    let token = localStorage.getItem('Authorization');
+ 
+    if (token == null || token == '') {
+      console.log(window.location.search)
+      if (window.location.search) next("/caslogin");
+      else next('/login');
+    } else {
+      next();
+    }
+  }
+})
 
 export default router;
