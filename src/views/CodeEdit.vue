@@ -315,11 +315,10 @@ endmodule\n"},
     },
     handleNodeClick(data) {
       this.selected = data.type
-      var node = this.$refs.DeviceGroupTree.getCurrentNode()
-      if (node.type == "file")
-        this.content = node.text
-      else if(node.type == "ipcore")
-        this.ipcore_params = node.params
+      if (data.type == "file")
+        this.content = data.text
+      else if(data.type == "ipcore")
+        this.ipcore_params = data.params
     },
     params_change(){
       this.notsaved = true
