@@ -315,8 +315,10 @@ endmodule\n"},
     },
     handleNodeClick(data) {
       this.selected = data.type
-      if (data.type == "file")
+      if (data.type == "file"){
         this.content = data.text
+        this.$refs.MyAce.setValue(this.content)
+      }
       else if(data.type == "ipcore")
         this.ipcore_params = data.params
     },
