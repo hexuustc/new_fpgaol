@@ -19,9 +19,9 @@
             </template>
             <div class="row">
               <div class="col-2">
-                
-                <el-tree :data="data" :props="defaultProps" highlight-current=true
-                  node-key="label" ref="DeviceGroupTree" :expand-on-click-node=false @node-click="handleNodeClick">
+
+                <el-tree :data="data" :props="defaultProps" highlight-current=true node-key="label" ref="DeviceGroupTree"
+                  :expand-on-click-node=false @node-click="handleNodeClick">
 
                   <template v-slot="{ node }">
                     <span class="custom-tree-node">
@@ -32,7 +32,7 @@
                 <el-button type="text" v-if="selected == 'folder' || selected == 'src_root'" @click="() => newFile()">
                   新文件
                 </el-button>
-                <el-button type="text" v-if="selected == 'ip_root'">
+                <el-button type="text" v-if="selected == 'ip_root'" @click="() => newIp()">
                   新IP核
                 </el-button>
                 <el-button type="text" v-if="selected == 'folder' || selected == 'src_root'" @click="() => newFolder()">
@@ -48,7 +48,7 @@
                 </el-button>
               </div>
               <div class="col-10">
-                <ace v-model="content" v-if="selected=='file'||selected=='xdc'" ref="MyAce" @mychange="edited"></ace>
+                <ace v-model="content" v-if="selected == 'file' || selected == 'xdc'" ref="MyAce" @mychange="edited"></ace>
               </div>
               <div class="col-2 mt-2">
                 <base-button size="md" type="info" @click="savecode"> 保存 </base-button>
@@ -171,7 +171,17 @@ endmodule\n"},
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(({ value }) => {
-        node.children.push({ "label": value, "text": "" })
+        node.children.push({ label: value, type: "file", text: "" })
+        this.notsaved = true
+      })
+    },
+    newIp() {
+      var node = this.$refs.DeviceGroupTree.getCurrentNode()
+      this.$prompt("请输入ip组件名", "ip组件名", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(({ value }) => {
+        node.children.push({ label: value, type: "ipcore", params: {} })
         this.notsaved = true
       })
     },
@@ -181,7 +191,7 @@ endmodule\n"},
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(({ value }) => {
-        node.children.push({ "label": value, "children": [] })
+        node.children.push({ label: value, type: "folder", children: [] })
         this.notsaved = true
       })
     },
@@ -191,7 +201,7 @@ endmodule\n"},
       const children = node.parent.childNodes;
       const index = children.findIndex(d => d.id === node.id);
       children.splice(index, 1);
-
+      this.notsaved = true
     },
     clickRename() {
       this.$prompt("请输入新名字", "新名字", {
