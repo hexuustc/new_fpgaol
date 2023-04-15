@@ -48,7 +48,103 @@
                 </el-button>
               </div>
               <div class="col-10">
-                <ace v-model="content" v-if="selected == 'file' || selected == 'xdc'" ref="MyAce" @mychange="edited"></ace>
+                <ace v-model="content" v-if="selected == 'file' || selected == 'xdc'" ref="MyAce" @mychange="edited">
+                </ace>
+                <div v-if="selected == 'ipcore'" class="m-4">
+                  <p>类型</p>
+                  <el-select v-model="ipcore_params._meta_type" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const__meta_type" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'clk_wiz'" class="m-4">
+                  <p>CLKOUT1_REQUESTED_OUT_FREQ</p>
+                  <el-input v-model="ipcore_params.CLKOUT1_REQUESTED_OUT_FREQ" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="50.000" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'clk_wiz'" class="m-4">
+                  <p>CLKOUT2_USED</p>
+                  <el-select v-model="ipcore_params.CLKOUT2_USED" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const_bool" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'clk_wiz'" class="m-4">
+                  <p>CLKOUT2_REQUESTED_OUT_FREQ</p>
+                  <el-input v-model="ipcore_params.CLKOUT2_REQUESTED_OUT_FREQ" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="23.456" />
+                </div>
+
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>depth</p>
+                  <el-input v-model="ipcore_params.depth" class="w-40" style="width: 240px" @change="params_change" placeholder="16" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>data_width</p>
+                  <el-input v-model="ipcore_params.data_width" class="w-40" style="width: 240px" @change="params_change" placeholder="16" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>memory_type</p>
+                  <el-select v-model="ipcore_params.memory_type" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const_memory_type" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>default_data_radix</p>
+                  <el-select v-model="ipcore_params.default_data_radix" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const_default_data_radix" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>default_data</p>
+                  <el-input v-model="ipcore_params.default_data" class="w-40" style="width: 240px" @change="params_change" placeholder="0000" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'dist_mem_gen'" class="m-4">
+                  <p>coefficient_file</p>
+                  <el-input v-model="ipcore_params.coefficient_file" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="../../../../qwq.coe" />
+                </div>
+
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Memory_Type</p>
+                  <el-select v-model="ipcore_params.Memory_Type" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const_Memory_Type" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Write_Depth_A</p>
+                  <el-input v-model="ipcore_params.Write_Depth_A" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="512" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Write_Width_A</p>
+                  <el-input v-model="ipcore_params.Write_Width_A" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="512" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Read_Width_A</p>
+                  <el-input v-model="ipcore_params.Read_Width_A" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="512" />
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Load_Init_File</p>
+                  <el-select v-model="ipcore_params.Load_Init_File" placeholder="Select" style="width: 240px" @change="params_change">
+                    <el-option v-for="item in const_bool" :key="item.value" :label="item.label"
+                      :value="item.value" />
+                  </el-select>
+                </div>
+                <div v-if="selected == 'ipcore' && ipcore_params._meta_type == 'blk_mem_gen'" class="m-4">
+                  <p>Coe_File</p>
+                  <el-input v-model="ipcore_params.Coe_File" class="w-40" style="width: 240px" @change="params_change"
+                    placeholder="512" />
+                </div>
+
+
+
               </div>
               <div class="col-2 mt-2">
                 <base-button size="md" type="info" @click="savecode"> 保存 </base-button>
@@ -87,7 +183,72 @@ export default {
       selected: "",
       save_message: "message here",
       content: "",
+      ipcore_params: {
+      },
+      const_bool: [
+        {
+          value: true,
+          label: "true",
+        },
+        {
+          value: false,
+          label: "false",
+        },
+      ],
+      const_Memory_Type: [
+        {
+          value: "Single_Port_RAM",
+          label: "Single_Port_RAM",
+        },
+      ],
+      const_default_data_radix: [
+        {
+          value: 2,
+          label: '2',
+        },
+        {
+          value: 10,
+          label: '10',
+        },
+        {
+          value: 16,
+          label: '16',
+        },
+      ],
+      const_memory_type: [
+        {
+          value: 'rom',
+          label: 'rom',
+        },
+        {
+          value: 'single_port_ram',
+          label: 'single_port_ram',
+        },
+        {
+          value: 'simple_dual_port_ram',
+          label: 'simple_dual_port_ram',
+        },
+        {
+          value: 'dual_port_ram',
+          label: 'dual_port_ram',
+        },
+      ],
+      const__meta_type: [
+        {
+          value: 'clk_wiz',
+          label: '时钟',
+        },
+        {
+          value: 'dist_mem_gen',
+          label: 'dist_mem_gen',
+        },
+        {
+          value: 'blk_mem_gen',
+          label: 'blk_mem_gen',
+        },
+      ],
       data: [{
+
         label: "source",
         type: "src_root",
         children: [{
@@ -154,6 +315,14 @@ endmodule\n"},
     },
     handleNodeClick(data) {
       this.selected = data.type
+      var node = this.$refs.DeviceGroupTree.getCurrentNode()
+      if (node.type == "file")
+        this.content = node.text
+      else if(node.type == "ipcore")
+        this.ipcore_params = node.params
+    },
+    params_change(){
+      this.notsaved = true
     },
     edited() {
       var node = this.$refs.DeviceGroupTree.getCurrentNode()
@@ -225,6 +394,7 @@ endmodule\n"},
   }
 
 };
+
 </script>
 <style>
 .custom-tree-node {
