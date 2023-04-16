@@ -199,7 +199,7 @@
                           <div class="col-5">
                           </div>
                           <div class="col-1">
-                          <base-button size="md" type="info"
+                          <base-button size="md" type="info" @click="genPeriph()"
                                   > 保存 </base-button>
                           </div>
                           <div class="col-2">
@@ -230,9 +230,14 @@
 </template>
 <script>
 // Charts
-
+import emitter from "../components/websocket/event_bus";
 export default {
   components: {
+  },
+  mounted() {
+    emitter.on("dispatch-xdc", function (payload) {
+      this.xdc = payload;
+    });
   },
   data() {
     return {
@@ -311,7 +316,45 @@ export default {
     }
   },
   methods: {
-  }
+    genPeriph() {
+      var led_cnt = this.LED;
+      var sw_cnt = this.SW;
+      var uart_cnt = this.UART;
+      var hexplay_cnt = this.HEX;
+
+      var j = { id: -2, periphs: [] };
+      for (let i = 0; i < led_cnt; i++) {
+        j.periphs.push({
+          type: "LED",
+          idx: i,
+        });
+      }
+      for (let i = 0; i < sw_cnt; i++) {
+        j.periphs.push({
+          type: "BTN",
+          idx: i,
+        });
+      }
+      for (let i = 0; i < uart_cnt; i++) {
+        j.periphs.push({
+          type: "UART",
+          idx: i,
+          baud: 115200,
+        });
+      }
+      for (let i = 0; i < hexplay_cnt; i++) {
+        j.periphs.push({
+          type: "HEXPLAY",
+          idx: i,
+        });
+      }
+
+      emitter.emit("submit-json", JSON.stringify(j));
+    },
+  },
+  beforeUnmount() {
+    emitter.off("dispatch-xdc");
+  },
 };
 </script>
 <style>
