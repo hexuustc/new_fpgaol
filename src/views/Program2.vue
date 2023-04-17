@@ -352,7 +352,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
-import { emitter } from "../components/websocket/event_bus";
+import emitter from "../components/websocket/event_bus";
 //import axios from 'axios'
 //let params = new URLSearchParams()
 const UART_HELLO_MESSAGE =
@@ -363,6 +363,21 @@ const xtermElement = ref(null);
 const term = new Terminal();
 const fitAddon = new FitAddon();
 term.loadAddon(fitAddon);
+
+// TODO: add more data in ref form
+// and remember sw change send message to event bus
+const hexplayData = ref([[...Array(8).keys()].map(() => "")]);
+
+const hexplayDataChange = (idx, payload) => {
+  for (let i = 0; i < 8; ++i) {
+    hexplayData[idx][i] =
+      payload == -1
+        ? ""
+        : [...Array(16).keys()].map((i) => i.toString(16))[
+            (payload >>> (4 * (7 - i))) % 0x10
+          ];
+  }
+};
 
 onMounted(() => {
   term.open(xtermElement.value);
@@ -377,6 +392,20 @@ onMounted(() => {
   emitter.on("term-recv", function (payload) {
     term.write(payload);
   });
+  // 监听 dispatch-json 事件
+  emitter.on("dispatch-json", function (init_json) {
+    // TODO:
+    console.log("dispatch-json", init_json);
+  });
+  // 监听 led-recv
+  emitter.on("led-recv", function (idx, payload) {
+    // TODO:
+    console.log("led-recv", idx, payload);
+  });
+  // 监听 hexplay-recv
+  emitter.on("hexplay-recv", function (idx, payload) {
+    hexplayDataChange(idx, payload);
+  });
 });
 
 onBeforeUnmount(() => {
@@ -384,6 +413,9 @@ onBeforeUnmount(() => {
 
   // 断开监听
   emitter.off("term-recv");
+  emitter.off("dispatch-json");
+  emitter.off("led-recv");
+  emitter.off("hexplay-recv");
 });
 </script>
 
