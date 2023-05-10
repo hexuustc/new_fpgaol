@@ -1,7 +1,7 @@
 import emitter from "./event_bus.js";
 
-let DEBUG_MODE = false;
-let DEBUG_WS_SERVER = "127.0.0.1:8090";
+let DEBUG_MODE = true;
+let DEBUG_WS_SERVER = "202.38.79.96:12148";
 
 let notifySocket;
 let PI_SERVER_ADDRESS = window.location.host;
@@ -59,7 +59,6 @@ function sendStopNotify() {
 
 emitter.on("submit-json", function (init_json) {
   sendStopNotify();
-  emitter.emit("dispatch-json", init_json);
   setTimeout(function () {
     sendStartNotify(init_json);
   }, 1000);

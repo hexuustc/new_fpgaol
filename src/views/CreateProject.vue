@@ -235,7 +235,7 @@ export default {
   components: {
   },
   mounted() {
-    emitter.on("dispatch-xdc", function (payload) {
+    emitter.on("dispatch-xdc", (payload) => {
       this.xdc = payload;
     });
   },
@@ -349,6 +349,8 @@ export default {
         });
       }
 
+      window.json = j;
+      window.new_json = true;
       emitter.emit("submit-json", JSON.stringify(j));
     },
   },

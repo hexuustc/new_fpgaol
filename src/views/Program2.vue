@@ -28,121 +28,48 @@
           </div>
           <div class="col-5 colmodule2">
             <div class="container">
-              <span class="fpgalabel3" align="center">led7</span>
-              <span class="fpgalabel3" align="center">led6</span>
-              <span class="fpgalabel3" align="center">led5</span>
-              <span class="fpgalabel3" align="center">led4</span>
-              <span class="fpgalabel3" align="center">led3</span>
-              <span class="fpgalabel3" align="center">led2</span>
-              <span class="fpgalabel3" align="center">led1</span>
-              <span class="fpgalabel3" align="center">led0</span>
+              <!-- 根据 ledData 确定长度 -->
+              <span
+                v-for="index in ledData.length"
+                :key="index"
+                class="fpgalabel3"
+                align="center"
+                >led{{ ledData.length - index }}</span
+              >
             </div>
             <div class="container">
-              <div class="fpgaled">
-                <input type="checkbox" id="led7" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led6" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led5" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led4" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led3" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led2" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led1" disabled /><label></label>
-              </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led0" disabled /><label></label>
+              <!-- 根据 ledData 决定是否 checked(单向) -->
+              <div v-for="index in ledData.length" :key="index" class="fpgaled">
+                <input
+                  type="checkbox"
+                  :id="'led' + (ledData.length - index)"
+                  :checked="ledData[ledData.length - index]"
+                  disabled
+                /><label></label>
               </div>
             </div>
             <div class="container">
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-            </div>
-            <div class="container">
-              <div class="fpgaboard">
-                <span class="fpgalabel3" align="center">G18</span>
-                <span class="fpgalabel3" align="center">F18</span>
-                <span class="fpgalabel3" align="center">E17</span>
-                <span class="fpgalabel3" align="center">D17</span>
-                <span class="fpgalabel3" align="center">G17</span>
-                <span class="fpgalabel3" align="center">E18</span>
-                <span class="fpgalabel3" align="center">D18</span>
-                <span class="fpgalabel3" align="center">C17</span>
-                <pre></pre>
-                <sapn>FPGA</sapn>
-                <pre></pre>
-                <sapn>XC7A100t-CSG324-1</sapn>
-                <pre></pre>
-                <span class="fpgalabel3" align="center">H16</span>
-                <span class="fpgalabel3" align="center">G13</span>
-                <span class="fpgalabel3" align="center">F13</span>
-                <span class="fpgalabel3" align="center">E16</span>
-                <span class="fpgalabel3" align="center">H14</span>
-                <span class="fpgalabel3" align="center">G16</span>
-                <span class="fpgalabel3" align="center">F16</span>
-                <span class="fpgalabel3" align="center">D14</span>
+              <!-- 同理，swData 表示开关, 需要处理函数 -->
+              <div
+                v-for="index in swData.length"
+                :key="index"
+                class="fpgaswitch"
+              >
+                <input
+                  type="checkbox"
+                  :id="'sw' + (swData.length - index)"
+                  @change="swChange($event, swData.length - index)"
+                /><label></label>
               </div>
             </div>
             <div class="container">
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-              <div class="fpgaline"><label></label></div>
-            </div>
-            <div class="container">
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw7" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw6" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw5" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw4" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw3" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw2" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw1" /><label></label>
-              </div>
-              <div class="fpgaswitch">
-                <input type="checkbox" id="sw0" /><label></label>
-              </div>
-            </div>
-            <div class="container">
-              <span class="fpgalabel3" align="center">sw7</span>
-              <span class="fpgalabel3" align="center">sw6</span>
-              <span class="fpgalabel3" align="center">sw5</span>
-              <span class="fpgalabel3" align="center">sw4</span>
-              <span class="fpgalabel3" align="center">sw3</span>
-              <span class="fpgalabel3" align="center">sw2</span>
-              <span class="fpgalabel3" align="center">sw1</span>
-              <span class="fpgalabel3" align="center">sw0</span>
+              <span
+                v-for="index in swData.length"
+                :key="index"
+                class="fpgalabel3"
+                align="center"
+                >sw{{ swData.length - index }}</span
+              >
             </div>
           </div>
 
@@ -183,7 +110,7 @@
               segplay(sharing with
               led)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexplay
             </div>
-            <div class="container">
+            <div class="container" style="display: flex">
               <div class="fpgaseg">
                 <span class="segplay" value="0"></span>
                 <span class="segplay" value="0"></span>
@@ -195,31 +122,22 @@
                 <span class="segplay" value="0"></span>
                 <label></label>
               </div>
-              <div class="hexplay">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span0">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span1">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span2">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span3">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span4">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span5">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span6">&nbsp;</p>
-                </div>
-                <div class="hexplay_out" align="center">
-                  <p class="hexplay_span" id="hexplay_span7">0</p>
+              <div>
+                <div
+                  v-for="index in hexplayData.length"
+                  :key="index"
+                  class="hexplay"
+                >
+                  <div
+                    v-for="inner_index in 8"
+                    :key="inner_index"
+                    class="hexplay_out"
+                    align="center"
+                  >
+                    <p class="hexplay_span">
+                      {{ hexplayData[index - 1][inner_index - 1] }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -349,7 +267,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, reactive } from "vue";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import emitter from "../components/websocket/event_bus";
@@ -364,9 +282,24 @@ const term = new Terminal();
 const fitAddon = new FitAddon();
 term.loadAddon(fitAddon);
 
-// TODO: add more data in ref form
-// and remember sw change send message to event bus
-const hexplayData = ref([[...Array(8).keys()].map(() => "")]);
+// hexplay 数据数组, 第一维指定了多少组 hexplay, 第二维是 hexplay 的每一位
+// 初始化为 1 组 hexplay, 初始数据为 0
+const hexplayData = reactive([[...Array(8).keys()].map(() => "0")]);
+
+// LED 数据数组, ledDate[idx] 是 bool, 表示第 idx 个 LED 是亮是灭
+// 初始化为 8 个 false
+const ledData = reactive([...Array(8).keys()].map(() => false));
+
+// SW 数据数组, swData[idx] 是 bool, 表示第 idx 个 SW 是开是关
+// 初始化为 8 个 false
+const swData = reactive([...Array(8).keys()].map(() => false));
+const swChange = (e, index) => {
+  if (!e) return;
+  swData[index] = !swData[index];
+  console.log(swData);
+  emitter.emit("sw-change", index, swData[index]);
+};
+swChange(0);
 
 const hexplayDataChange = (idx, payload) => {
   for (let i = 0; i < 8; ++i) {
@@ -388,19 +321,37 @@ onMounted(() => {
     emitter.emit("term-send", val);
   });
 
+  if (window.new_json) {
+    console.log(window.json);
+    window.new_json = false;
+
+    // 根据 json 初始化 hexplayData, ledData, swData
+    // 遍历 json.periphs 数组, 根据 type 是 'LED', 'BTN' 还是 'HEXPLAY'
+    // 分别初始化 ledData, swData, hexplayData
+    while (ledData.length > 0) ledData.pop();
+    while (swData.length > 0) swData.pop();
+    while (hexplayData.length > 0) hexplayData.pop();
+    for (let i = 0; i < window.json.periphs.length; ++i) {
+      const periph = window.json.periphs[i];
+      if (periph.type == "LED") {
+        ledData.push(false);
+      } else if (periph.type == "BTN") {
+        swData.push(false);
+      } else if (periph.type == "HEXPLAY") {
+        hexplayData.push([...Array(8).keys()].map(() => "0"));
+      }
+    }
+    console.log("reinit: ", ledData, swData, hexplayData);
+  }
+
   // 监听 eventBus 的一些事件
   emitter.on("term-recv", function (payload) {
     term.write(payload);
   });
-  // 监听 dispatch-json 事件
-  emitter.on("dispatch-json", function (init_json) {
-    // TODO:
-    console.log("dispatch-json", init_json);
-  });
   // 监听 led-recv
   emitter.on("led-recv", function (idx, payload) {
-    // TODO:
     console.log("led-recv", idx, payload);
+    ledData[idx] = payload ? true : false;
   });
   // 监听 hexplay-recv
   emitter.on("hexplay-recv", function (idx, payload) {
@@ -413,7 +364,6 @@ onBeforeUnmount(() => {
 
   // 断开监听
   emitter.off("term-recv");
-  emitter.off("dispatch-json");
   emitter.off("led-recv");
   emitter.off("hexplay-recv");
 });
