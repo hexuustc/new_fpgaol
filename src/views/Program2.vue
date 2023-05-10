@@ -4,6 +4,15 @@
     </base-header>
 
     <div class="container-fluid mt--7">
+      <input
+        id="bitstream"
+        name="bitstream"
+        type="file"
+        accept=".bin,.bit"
+        class="form-control-file"
+        hidden="true"
+        @change="updateFileName($event)"
+      />
       <!--Tables-->
       <div class="card shadow" :class="type === 'dark' ? 'bg-default' : ''">
         <div
@@ -20,9 +29,36 @@
         </div>
 
         <div class="row align-items-center">
-          <div class="col-2 text-center">none</div>
-          <div class="col-5 text-center">状态：未烧写</div>
-          <div class="col-5 text-center">program</div>
+          <div class="col-1"></div>
+          <div class="col-2">
+            <button
+              type="button"
+              id="file-select"
+              class="btn btn-primary"
+              onclick="document.getElementById('bitstream').click()"
+            >
+              Select file
+            </button>
+          </div>
+          <div class="col-7">
+            <input
+              type="text"
+              id="file-name"
+              readonly="true"
+              class="form-control"
+              placeholder="no file selected"
+            />
+          </div>
+          <div class="col-2">
+            <button
+              type="button"
+              id="upload-button"
+              class="btn btn-primary"
+              @click="updateFile"
+            >
+              Program!
+            </button>
+          </div>
           <div class="col-12">
             <el-divider></el-divider>
           </div>
@@ -271,6 +307,7 @@ import { ref, onMounted, onBeforeUnmount, reactive } from "vue";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import emitter from "../components/websocket/event_bus";
+
 //import axios from 'axios'
 //let params = new URLSearchParams()
 const UART_HELLO_MESSAGE =
@@ -299,7 +336,6 @@ const swChange = (e, index) => {
   console.log(swData);
   emitter.emit("sw-change", index, swData[index]);
 };
-swChange(0);
 
 const hexplayDataChange = (idx, payload) => {
   for (let i = 0; i < 8; ++i) {
@@ -311,6 +347,42 @@ const hexplayDataChange = (idx, payload) => {
           ];
   }
 };
+
+const updateFileName = (e) => {
+  if (!e) return;
+  console.log(e.target.files[0].name);
+  document.getElementById("file-name").placeholder = e.target.files[0].name;
+};
+
+function updateFile() {
+  emitter.emit("stop-notify");
+  const file = document.getElementById("bitstream").files[0];
+  const zip = new window.JSZip();
+  zip.file("bitstream.bit", file, { binary: true, unixPermissions: "755" });
+  zip
+    .generateAsync({ type: "blob", compression: "DEFLATE" })
+    .then(function (zipped_file) {
+      const fd = new FormData();
+      fd.append("bitstream", zipped_file);
+      fd.append("judge", "normal");
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            emitter.emit("submit-json", JSON.stringify(window.json));
+            alert("Success!");
+          } else {
+            console.log("Failed");
+          }
+        }
+      };
+      xhr.open(
+        "POST",
+        "http://202.38.79.96:12148/upload/?token=token_debug_ignore"
+      );
+      xhr.send(fd);
+    });
+}
 
 onMounted(() => {
   term.open(xtermElement.value);

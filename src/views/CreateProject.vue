@@ -1,9 +1,9 @@
 <template>
-  <div >
+  <div>
     <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-5">
     </base-header>
 
-    <div class="container-fluid mt--7 px-0 ">
+    <div class="container-fluid mt--7 px-0">
       <!--Charts-->
       <div class="row">
         <div class="col-xl-12 mb-5 mb-xl-0">
@@ -12,217 +12,255 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-muted ls-1 mb-1">Create</h6>
-                  <h3 class="nav-link-text text-center ls-1 mb-1 h3">建立工程</h3>
+                  <h3 class="nav-link-text text-center ls-1 mb-1 h3">
+                    建立工程
+                  </h3>
                 </div>
               </div>
             </template>
             <div class="row">
-                <div class="col-6">
-                    <base-input
-                          label="工程名"
-                          placeholder="0000"
-                          input-classes="form-control-alternative"
-                          v-model="ProjectName"
-                        />
+              <div class="col-6">
+                <base-input
+                  label="工程名"
+                  placeholder="0000"
+                  input-classes="form-control-alternative"
+                  v-model="ProjectName"
+                />
+              </div>
+              <div class="fpgaled">
+                <input type="checkbox" id="led7" disabled /><label></label>
+              </div>
+              <div class="col-12">
+                <div>
+                  <label class="form-control-label"> 布局 </label>
                 </div>
-                <div class="fpgaled"><input type="checkbox" id="led7" disabled><label></label></div>
-                <div class="col-12">
-                    <div>
-                        <label class="form-control-label">
-                            布局
-                        </label>
+              </div>
+
+              <div class="col-12">
+                <card header-classes="bg-transparent">
+                  <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6 text-center">
+                      <center>
+                        <div>
+                          <label class="form-control-label"> 已有布局 </label>
+                        </div>
+                        <select
+                          class="form-control form-control-alternative"
+                          v-model="layout"
+                        >
+                          <option value="默认">默认</option>
+                          <option disabled>not supported</option>
+                        </select>
+                      </center>
                     </div>
-                </div>
-            
-                <div class="col-12">
-                        <card header-classes="bg-transparent">
-                          <div class="row">
-                              <div class="col-3">
-                              </div>
-                              <div class="col-6 text-center">
-                                <center>
-                                    <div>
-                                        <label class="form-control-label">
-                                            已有布局
-                                        </label>
-                                    </div>
-                                    <select class="form-control form-control-alternative" v-model="layout">
-                                        <option value="默认">默认</option>
-                                        <option disabled>not supported</option>
-                                    </select>
-                                </center>
-                              </div>
-                              <div class="col-3">
-                              </div>
-                              <div class="mt-5 row col-12">
+                    <div class="col-3"></div>
+                    <div class="mt-5 row col-12">
+                      <div class="col-1 mr--4">LED:</div>
+                      <div class="col-1 mr--5">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="LED = LED - 1"
+                        >
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="LED"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="LED = LED + 1"
+                        >
+                          +
+                        </base-button>
+                      </div>
 
+                      <div class="col-1 mr--4">SW:</div>
+                      <div class="col-1 mr--5">
+                        <base-button size="sm" type="info" @click="SW = SW - 1">
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="SW"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button size="sm" type="info" @click="SW = SW + 1">
+                          +
+                        </base-button>
+                      </div>
 
+                      <div class="col-1 mr--4">BTN:</div>
+                      <div class="col-1 mr--5">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="BTN = BTN - 1"
+                        >
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="BTN"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="BTN = BTN + 1"
+                        >
+                          +
+                        </base-button>
+                      </div>
+                    </div>
 
-                                <div class="col-1 mr--4">
-                                  LED:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="LED=LED-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="LED"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="LED=LED+1"
-                                  > + </base-button>
-                                </div>
+                    <div class="mt-1 row col-12">
+                      <div class="col-1 mr--4">SEG:</div>
+                      <div class="col-1 mr--5">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="SEG = SEG - 1"
+                        >
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="SEG"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="SEG = SEG + 1"
+                        >
+                          +
+                        </base-button>
+                      </div>
 
+                      <div class="col-1 mr--4">HEX:</div>
+                      <div class="col-1 mr--5">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="HEX = HEX - 1"
+                        >
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="HEX"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="HEX = HEX + 1"
+                        >
+                          +
+                        </base-button>
+                      </div>
 
+                      <div class="col-1 mr--4">UART:</div>
+                      <div class="col-1 mr--5">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="UART = UART - 1"
+                        >
+                          -
+                        </base-button>
+                      </div>
+                      <div class="col-1 text-center mr--4">
+                        <center>
+                          <base-input
+                            placeholder="0"
+                            input-classes="form-control-alternative"
+                            v-model="UART"
+                          />
+                        </center>
+                      </div>
+                      <div class="col-1 mr">
+                        <base-button
+                          size="sm"
+                          type="info"
+                          @click="UART = UART + 1"
+                        >
+                          +
+                        </base-button>
+                      </div>
+                    </div>
 
-                                <div class="col-1 mr--4">
-                                  SW:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="SW=SW-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="SW"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="SW=SW+1"
-                                  > + </base-button>
-                                </div>
+                    <div class="col-12">
+                      可用管脚数：{{ available_pin }}/{{ total_pin }}
+                    </div>
 
-
-
-                                <div class="col-1 mr--4">
-                                  BTN:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="BTN=BTN-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="BTN"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="BTN=BTN+1"
-                                  > + </base-button>
-                                </div>
-                              </div>
-
-                              <div class="mt-1 row col-12">
-                                <div class="col-1 mr--4">
-                                  SEG:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="SEG=SEG-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="SEG"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="SEG=SEG+1"
-                                  > + </base-button>
-                                </div>
-
-                                <div class="col-1 mr--4">
-                                  HEX:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="HEX=HEX-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="HEX"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="HEX=HEX+1"
-                                  > + </base-button>
-                                </div>
-
-                                <div class="col-1 mr--4">
-                                  UART:
-                                </div>
-                                <div class="col-1 mr--5">
-                                  <base-button size="sm" type="info" @click="UART=UART-1"
-                                  > - </base-button>
-                                </div>
-                                <div class="col-1 text-center mr--4">
-                                  <center>
-                                      <base-input
-                                        placeholder="0"
-                                        input-classes="form-control-alternative"
-                                        v-model="UART"
-                                      />
-                                  </center>
-                                </div>
-                                <div class="col-1 mr">
-                                  <base-button size="sm" type="info" @click="UART=UART+1"
-                                  > + </base-button>
-                                </div>
-                              </div>
-
-
-                              <div class="col-12">
-                            可用管脚数：{{available_pin}}/{{total_pin}}
-                          </div>
-
-                          <div class="col-5">
-                          </div>
-                          <div class="col-1">
-                          <base-button size="md" type="info" @click="genPeriph()"
-                                  > 保存 </base-button>
-                          </div>
-                          <div class="col-2">
-                            <a href="https://fpgaol.ustc.edu.cn/download/fpgaol1.xdc" target="_blank">下载xdc</a>
-                          </div>
-                          </div>
-                  
-                        </card>
-                </div>
-                <div class="col-2">
-                          <base-button size="md" type="info" @click="hasxdc=!hasxdc"
-                                  > 查看xdc </base-button>
-                          </div>
-                <div class="col-12 mt-3" v-if="hasxdc">
-                        <textarea class="form-control form-control-alternative" :rows="20" v-model="xdc" :placeholder="xdc"></textarea>
-                </div>
-                
-            
+                    <div class="col-5"></div>
+                    <div class="col-1">
+                      <base-button size="md" type="info" @click="genPeriph()">
+                        保存
+                      </base-button>
+                    </div>
+                    <div class="col-2">
+                      <a
+                        href="https://fpgaol.ustc.edu.cn/download/fpgaol1.xdc"
+                        target="_blank"
+                        >下载xdc</a
+                      >
+                    </div>
+                  </div>
+                </card>
+              </div>
+              <div class="col-2">
+                <base-button size="md" type="info" @click="hasxdc = !hasxdc">
+                  查看xdc
+                </base-button>
+              </div>
+              <div class="col-12 mt-3" v-if="hasxdc">
+                <textarea
+                  class="form-control form-control-alternative"
+                  :rows="20"
+                  v-model="xdc"
+                  :placeholder="xdc"
+                ></textarea>
+              </div>
             </div>
           </card>
         </div>
-
-        
       </div>
       <!-- End charts-->
     </div>
@@ -232,8 +270,7 @@
 // Charts
 import emitter from "../components/websocket/event_bus";
 export default {
-  components: {
-  },
+  components: {},
   mounted() {
     emitter.on("dispatch-xdc", (payload) => {
       this.xdc = payload;
@@ -241,16 +278,17 @@ export default {
   },
   data() {
     return {
-        ProjectName: "0000",
-        layout: "默认",
-        LED: 0,
-        SW: 0,
-        BTN: 0,
-        SEG: 0,
-        UART: 0,
-        HEX: 0,
-        total_pin: 42,
-        xdc:"## This file is a general .xdc for FPGAOL2_BOARD (adopted from Nexys4 DDR Rev. C)\n\
+      ProjectName: "0000",
+      layout: "默认",
+      LED: 0,
+      SW: 0,
+      BTN: 0,
+      SEG: 0,
+      UART: 0,
+      HEX: 0,
+      total_pin: 42,
+      xdc:
+        "## This file is a general .xdc for FPGAOL2_BOARD (adopted from Nexys4 DDR Rev. C)\n\
 ## To use it in a project:\n\
 ## - uncomment the lines corresponding to used pins\n\
 ## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project\n\
@@ -301,19 +339,27 @@ export default {
 #set_property -dict { PACKAGE_PIN D3    IOSTANDARD LVCMOS33 } [get_ports { UART_CTS }]; #IO_L12N_T1_MRCC_35 Sch=uart_cts\n\
 #set_property -dict { PACKAGE_PIN E5    IOSTANDARD LVCMOS33 } [get_ports { UART_RTS }]; #IO_L5N_T0_AD13N_35 Sch=uart_rts\n\
 ",
-        hasxdc:false
-              };
+      hasxdc: false,
+    };
   },
   computed: {
-    available_pin(){
-      var is_seg=0;
-      var is_hex=0;
-      if (this.SEG>0) is_seg=1;
-      else is_seg=0;
-      if (this.HEX>0) is_hex=1;
+    available_pin() {
+      var is_seg = 0;
+      var is_hex = 0;
+      if (this.SEG > 0) is_seg = 1;
+      else is_seg = 0;
+      if (this.HEX > 0) is_hex = 1;
       else is_hex = 0;
-      return this.total_pin-this.LED-this.SW-this.BTN-8*is_seg-7*is_hex-2*this.UART;
-    }
+      return (
+        this.total_pin -
+        this.LED -
+        this.SW -
+        this.BTN -
+        8 * is_seg -
+        7 * is_hex -
+        2 * this.UART
+      );
+    },
   },
   methods: {
     genPeriph() {
@@ -351,6 +397,7 @@ export default {
 
       window.json = j;
       window.new_json = true;
+      emitter.emit("stop-notify");
       emitter.emit("submit-json", JSON.stringify(j));
     },
   },

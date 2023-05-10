@@ -57,8 +57,11 @@ function sendStopNotify() {
   );
 }
 
-emitter.on("submit-json", function (init_json) {
+emitter.on("stop-notify", function () {
   sendStopNotify();
+});
+
+emitter.on("submit-json", function (init_json) {
   setTimeout(function () {
     sendStartNotify(init_json);
   }, 1000);
