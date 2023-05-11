@@ -43,13 +43,13 @@
             path: '/about',
           }"
         />
-        <sidebar-item
+        <!-- <sidebar-item
           :link="{
             name: '下载',
             icon: 'ni ni-key-25 text-info',
             path: '/home',
           }"
-        />
+        /> -->
         <sidebar-item
           :link="{
             name: 'Register',

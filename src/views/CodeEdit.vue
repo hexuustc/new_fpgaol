@@ -150,7 +150,7 @@
                 <base-button size="md" type="info" @click="savecode"> 保存 </base-button>
               </div>
               <div class="col-2 mt-2">
-                <base-button size="md" type="info" @click="compile"> debug </base-button>
+                <base-button size="md" type="info" @click="compile"> 编译 </base-button>
               </div>
               <div class="col-2 mt-2">
                 <base-button size="md" type="info" @click="clean"> clean storage </base-button>
@@ -170,7 +170,7 @@
 <script>
 // Charts
 
-
+import axios from "axios";
 import ace from "../components/CustomAce.vue";
 export default {
   components: {
@@ -389,9 +389,20 @@ endmodule\n"},
       });
     },
     compile() {
-      console.log(this.data)
-      //this.$router.push("/compile");
-    }
+      const json = JSON.stringify(this.data);
+      axios
+        .post("http://114.214.209.42:18888/submit_proj_json", json, {
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   }
 
 };

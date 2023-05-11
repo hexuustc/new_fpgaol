@@ -27,7 +27,7 @@
               <span class="avatar avatar-sm rounded-circle">
                 <img
                   alt="Image placeholder"
-                  src="https://portrait.gitee.com/uploads/avatars/user/2851/8555385_hexuustc_1652058906.png"
+                  src="https://avatars.githubusercontent.com/u/55642318"
                 />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">

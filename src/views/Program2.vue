@@ -393,9 +393,8 @@ onMounted(() => {
     emitter.emit("term-send", val);
   });
 
-  if (window.new_json) {
+  if (window.json) {
     console.log(window.json);
-    window.new_json = false;
 
     // 根据 json 初始化 hexplayData, ledData, swData
     // 遍历 json.periphs 数组, 根据 type 是 'LED', 'BTN' 还是 'HEXPLAY'

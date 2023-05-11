@@ -230,10 +230,10 @@
                     </div>
 
                     <div class="col-5"></div>
-                    <div class="col-1">
-                      <base-button size="md" type="info" @click="genPeriph()">
-                        保存
-                      </base-button>
+                    <div class="col-2">
+                      <base-button size="md" type="info" @click="genPeriph()"
+                        >保存</base-button
+                      >
                     </div>
                     <div class="col-2">
                       <a
@@ -275,6 +275,15 @@ export default {
     emitter.on("dispatch-xdc", (payload) => {
       this.xdc = payload;
     });
+    // 从 localStorage 中查询 LED, SW, BTN, SEG, UART, HEX
+    // 如果有，则覆盖（需要转换为 number）
+    // 如果没有，则保持 0
+    this.LED = Number(localStorage.getItem("LED")) || 0;
+    this.SW = Number(localStorage.getItem("SW")) || 0;
+    this.BTN = Number(localStorage.getItem("BTN")) || 0;
+    this.SEG = Number(localStorage.getItem("SEG")) || 0;
+    this.UART = Number(localStorage.getItem("UART")) || 0;
+    this.HEX = Number(localStorage.getItem("HEX")) || 0;
   },
   data() {
     return {
@@ -342,6 +351,27 @@ export default {
       hasxdc: false,
     };
   },
+  watch: {
+    // LED, SW, BTN, SEG, UART, HEX 更新时，保存到 localStorage
+    LED(newLED, oldLED) {
+      localStorage.setItem("LED", newLED);
+    },
+    SW(newSW, oldSW) {
+      localStorage.setItem("SW", newSW);
+    },
+    BTN(newBTN, oldBTN) {
+      localStorage.setItem("BTN", newBTN);
+    },
+    SEG(newSEG, oldSEG) {
+      localStorage.setItem("SEG", newSEG);
+    },
+    UART(newUART, oldUART) {
+      localStorage.setItem("UART", newUART);
+    },
+    HEX(newHEX, oldHEX) {
+      localStorage.setItem("HEX", newHEX);
+    },
+  },
   computed: {
     available_pin() {
       var is_seg = 0;
@@ -396,7 +426,6 @@ export default {
       }
 
       window.json = j;
-      window.new_json = true;
       emitter.emit("stop-notify");
       emitter.emit("submit-json", JSON.stringify(j));
     },
