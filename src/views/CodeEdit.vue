@@ -261,26 +261,7 @@ export default {
   \n\
   assign led = sw;\n\
   \n\
-endmodule\n"},
-        {
-          label: "alu.v",
-          type: "file",
-          text: "",
-        }, {
-          label: "decode.v",
-          type: "file",
-          text: "",
-        },
-        {
-          label: "imm.v",
-          type: "file",
-          text: "",
-        },
-        {
-          label: "Regfile.v",
-          type: "file",
-          text: "",
-        }
+endmodule\n"}
         ]
       }, {
         label: "ipcore",
@@ -315,7 +296,7 @@ endmodule\n"},
     },
     handleNodeClick(data) {
       this.selected = data.type
-      if (data.type == "file"){
+      if (data.type == "file" || data.type == "xdc"){
         this.content = data.text
         this.$refs.MyAce.setValue(this.content)
       }
@@ -391,7 +372,7 @@ endmodule\n"},
     compile() {
       const json = JSON.stringify(this.data);
       axios
-        .post("http://114.214.209.42:18888/submit_proj_json", json, {
+        .post("http://202.38.79.96:18888/submit_proj_json", json, {
           // headers: {
           //   "Content-Type": "application/json",
           // },
