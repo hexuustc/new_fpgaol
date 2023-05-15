@@ -235,13 +235,6 @@
                         >保存</base-button
                       >
                     </div>
-                    <div class="col-2">
-                      <a
-                        href="https://fpgaol.ustc.edu.cn/download/fpgaol1.xdc"
-                        target="_blank"
-                        >下载xdc</a
-                      >
-                    </div>
                   </div>
                 </card>
               </div>
