@@ -27,9 +27,6 @@
                   v-model="ProjectName"
                 />
               </div>
-              <div class="fpgaled">
-                <input type="checkbox" id="led7" disabled /><label></label>
-              </div>
               <div class="col-12">
                 <div>
                   <label class="form-control-label"> 布局 </label>
