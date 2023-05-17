@@ -530,10 +530,9 @@ endmodule\n",
     };
   },
   mounted() {
-    if (localStorage.code_data == undefined) {
+    if (localStorage.getItem("code_data") === null) {
       this.init_localstorage();
     }
-
     this.data = JSON.parse(localStorage.getItem("code_data"));
   },
   methods: {
@@ -594,11 +593,19 @@ endmodule\n",
       });
     },
     clickDelete() {
-      var key = this.$refs.DeviceGroupTree.getCurrentKey();
-      var node = this.$refs.DeviceGroupTree.getNode(key);
-      const children = node.parent.childNodes;
-      const index = children.findIndex((d) => d.id === node.id);
-      children.splice(index, 1);
+      // TODO: 这里需要约束全局 label 不能重复！！！
+      const key = this.$refs.DeviceGroupTree.getCurrentKey();
+      const node = this.$refs.DeviceGroupTree.getNode(key);
+      const removeLabel = (dataArray, label) => {
+        dataArray.forEach((item, index) => {
+          if (item.label === label) {
+            dataArray.splice(index, 1);
+          } else if (item.children) {
+            removeLabel(item.children, label);
+          }
+        });
+      };
+      removeLabel(this.data, node.data.label);
       this.notsaved = true;
     },
     clickRename() {
