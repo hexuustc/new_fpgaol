@@ -43,13 +43,13 @@
             path: '/about',
           }"
         />
-        <!-- <sidebar-item
+        <sidebar-item
           :link="{
             name: '下载',
             icon: 'ni ni-key-25 text-info',
             path: '/home',
           }"
-        /> -->
+        />
         <sidebar-item
           :link="{
             name: 'Register',
@@ -57,9 +57,40 @@
             path: '/register',
           }"
         />
+        <sidebar-item
+          :link="{
+            name: 'dashboard',
+            icon: 'fa fa-solid fa-arrow-right text-red',
+            path: '/dashboard',
+          }"
+        /><sidebar-item
+          :link="{
+            name: 'icons',
+            icon: 'ni ni-bullet-list-67 text-red',
+            path: '/icons',
+          }"
+        /><sidebar-item
+          :link="{
+            name: 'maps',
+            icon: 'ni ni-bullet-list-67 text-red',
+            path: '/maps',
+          }"
+        /><sidebar-item
+          :link="{
+            name: 'tables',
+            icon: 'ni ni-bullet-list-67 text-red',
+            path: '/tables',
+          }"
+        />
+        <button class="toggle-btn text-info" @click="toggleSidebar">
+          <i class="ni ni-bold-left"></i> <!-- 使用 Font Awesome 的箭头图标 -->
+        </button>
       </template>
     </side-bar>
-<div v-if="!expand_sidebar" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white">
+<div v-if="!expand_sidebar" class="show-sidebar-btn text-info" @click="toggleSidebar">
+  <i class="ni ni-bold-right"></i>
+</div>
+<div v-if="false" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white">
     <el-radio-group  v-model="isCollapse" style="margin-bottom: 20px;">
       <el-radio-button :label="false">展开</el-radio-button>
       <el-radio-button :label="true">收起</el-radio-button>
@@ -99,28 +130,28 @@
 </div>
     <div class="main-content" :data="sidebarBackground">
       <dashboard-navbar></dashboard-navbar>
-      <div @click="toggleSidebar">
+      <div>
         <!-- your content here -->
         <router-view></router-view>
-        <content-footer v-if="!$route.meta.hideFooter"></content-footer>
+        <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
       </div>
     </div>
   </div>
 </template>
 <script>
 import DashboardNavbar from "./DashboardNavbar.vue";
-import ContentFooter from "./ContentFooter.vue";
+//import ContentFooter from "./ContentFooter.vue";
 //import SideBar from "../components/SidebarPlugin/SideBar.vue";
 
 export default {
   components: {
     DashboardNavbar,
-    ContentFooter,
+    //ContentFooter,
     //SideBar,
   },
   data() {
     return {
-      sidebarBackground: "blue", //vue|blue|orange|green|red|primary
+      sidebarBackground: "red", //vue|blue|orange|green|red|primary
       expand_sidebar: true,
       isCollapse: true
     };
@@ -130,6 +161,7 @@ export default {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+      this.expand_sidebar = !this.expand_sidebar;
     },
     handleOpen(key, keyPath) {
         console.log(key, keyPath);
@@ -148,4 +180,32 @@ export default {
     width: 200px;
     min-height: 400px;
   }
+.toggle-btn, .show-sidebar-btn {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(225, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  z-index: 1000;
+}
+
+.toggle-btn {
+  left: 220px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.show-sidebar-btn {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 </style>

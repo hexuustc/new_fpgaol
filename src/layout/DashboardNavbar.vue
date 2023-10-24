@@ -42,7 +42,7 @@
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
           </router-link>
-          <router-link to="/profile" class="dropdown-item">
+          <!-- <router-link to="/profile" class="dropdown-item">
             <i class="ni ni-settings-gear-65"></i>
             <span>Settings</span>
           </router-link>
@@ -53,7 +53,7 @@
           <router-link to="/profile" class="dropdown-item">
             <i class="ni ni-support-16"></i>
             <span>Support</span>
-          </router-link>
+          </router-link> -->
           <div class="dropdown-divider"></div>
           <div class="dropdown-item" @click="logout">
             <i class="ni ni-user-run"></i>
@@ -81,6 +81,7 @@ export default {
   },
   mounted () {
     let token = localStorage.getItem('Authorization');
+    let userdata = localStorage.getItem('userdata');
     form.append('token', token)
     axios
      .post('http://202.38.79.96:9001/profile',form)
@@ -102,16 +103,19 @@ export default {
     },
     logout(){
       localStorage.removeItem('Authorization');
+      localStorage.removeItem('userdata');
+      this.$router.push('/login');
       axios
-     .get('http://cdacount.cdinfotech.top/sso/logout?userId=7')
+     .get('http://202.38.79.96:9003/sso/logout?username='+this.username)
      .then(response => (
-         console.log(response.data),
-         this.$router.push('/login')
+         console.log("logout: ",response.data)
+         //this.$router.push('/login')
      ))
     },
     test(){
         if (this.res['code']==1){
-          this.username=this.res['username']
+          this.username=this.res['username'];
+          this.$store.commit('setusername', this.username);
         }
         else{
           this.logout()

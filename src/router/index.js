@@ -18,7 +18,7 @@ import CodeEdit from "../views/CodeEdit.vue";
 
 
 import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
+// import Register from "../views/Register.vue";
 import Caslogin from "../views/Caslogin.vue";
 
 const routes = [
@@ -99,11 +99,11 @@ const routes = [
         name: "login",
         components: { default: Login },
       },
-      {
-        path: "/register",
-        name: "register",
-        components: { default: Register },
-      },
+      // {
+      //   path: "/register",
+      //   name: "register",
+      //   components: { default: Register },
+      // },
     ],
   },
   {

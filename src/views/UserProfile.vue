@@ -35,7 +35,7 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="https://portrait.gitee.com/uploads/avatars/user/2851/8555385_hexuustc_1652058906.png"
+                      src="https://avatars.githubusercontent.com/u/55642318"
                       class="rounded-circle"
                     />
                   </a>
@@ -256,6 +256,7 @@ export default {
   },
   mounted () {
     let token = localStorage.getItem('Authorization');
+    let userdata = localStorage.getItem('userdata');
     form.append('token', token)
     axios
      .post('http://202.38.79.96:9001/profile',form)
@@ -268,8 +269,10 @@ export default {
   methods: {
     logout(){
       localStorage.removeItem('Authorization');
+      localStorage.removeItem('userdata');
       axios
-     .get('http://cdacount.cdinfotech.top/sso/logout?userId=7')
+     //.get('http://202.38.79.96:9003/sso/logout?username='+this.username)
+     .get('https://fpgaol.ustc.edu.cn/uniauth/sso/logout?username='+this.username)
      .then(response => (
          console.log(response.data),
          this.$router.push('/login')

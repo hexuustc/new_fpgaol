@@ -379,6 +379,7 @@ function updateFile() {
       xhr.open(
         "POST",
         "http://202.38.79.96:12148/upload/?token=token_debug_ignore"
+        //"http://202.38.79.134:12169/upload/?token=token_debug_ignore"
       );
       xhr.send(fd);
     });

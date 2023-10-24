@@ -2,6 +2,7 @@ import emitter from "./event_bus.js";
 
 let DEBUG_MODE = true;
 let DEBUG_WS_SERVER = "202.38.79.96:12148";
+//let DEBUG_WS_SERVER = "202.38.79.134:12169";
 
 let notifySocket;
 let PI_SERVER_ADDRESS = window.location.host;
@@ -14,7 +15,9 @@ export default function initWebsocket() {
   }
   notifySocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    //console.log("receive message:", data);
+    console.log("receive message:", data);
+    //print("hhh");
+    console.log("bbb");
     const type = data["type"];
     const idx = data["idx"];
     let payload = data["payload"];
@@ -35,11 +38,12 @@ export default function initWebsocket() {
 }
 
 function sendJson(json) {
-  console.log(json);
+  console.log("websocket sendjson: ",json);
   notifySocket.send(json);
 }
 
 function sendStartNotify(json) {
+  console.log("sendStartNotify in ");
   var data = JSON.parse(json);
   var id = data["id"];
   if (id == -2) {

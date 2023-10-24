@@ -9,15 +9,21 @@
           <div class="btn-wrapper text-center">
             <a :href="login_href"  class="btn btn-neutral btn-icon">
               <span class="btn-inner--icon"
-                ><img src="img/icons/common/github.svg"
+                ><img src="img/icons/common/fpgaol.svg"
               /></span>
               <span class="btn-inner--text">统一认证登录</span>
             </a>
           </div>
         </div>
-        <div class="card-body px-lg-5 py-lg-5">
+        <!-- <div class="card-body px-lg-5 py-lg-5">
           <div class="text-center text-muted mb-4">
-            <small>Or sign in with credentials</small>
+            <small>Or 游客访问</small>
+          </div>
+          <div class="btn-wrapper text-center">
+            <a :href="login_href"  class="btn btn-neutral btn-icon">
+              <i class="ni ni-single-02"></i>
+              <span class="btn-inner--text">游客访问</span>
+            </a>
           </div>
           <form role="form">
             <base-input
@@ -44,9 +50,9 @@
               <base-button type="primary" class="my-4">Sign in</base-button>
             </div>
           </form>
-        </div>
+        </div> -->
       </div>
-      <div class="row mt-3">
+      <!-- <div class="row mt-3">
         <div class="col-6">
           <a href="#" class="text-light"><small>Forgot password?</small></a>
         </div>
@@ -55,7 +61,7 @@
             ><small>Create new account</small></router-link
           >
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -72,7 +78,9 @@ export default {
     };
   },
   mounted(){
-    this.login_href="http://cdacount.cdinfotech.top/admin/login?redirect="+window.location.origin+"#/caslogin"
+    //this.login_href="http://cdacount.cdinfotech.top/admin/login?redirect="+window.location.origin+"#/caslogin"
+    //this.login_href="http://202.38.79.96:9003/admin/login?redirect="+window.location.origin+"#/caslogin"
+    this.login_href="https://fpgaol.ustc.edu.cn/uniauth/admin/login?redirect="+window.location.origin+"#/caslogin"
     let token = localStorage.getItem('Authorization');
     if(token) this.$router.push('/program2');
   }

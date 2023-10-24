@@ -21,6 +21,7 @@ import router from "./router";
 import ace from "ace-builds";
 import ArgonDashboard from "./plugins/argon-dashboard";
 import ElementPlus from "element-plus";
+import store from './plugins/store';
 import "element-plus/lib/theme-chalk/index.css";
 
 const appInstance = createApp(App);
@@ -28,4 +29,5 @@ appInstance.use(router);
 appInstance.use(ace);
 appInstance.use(ElementPlus);
 appInstance.use(ArgonDashboard);
+appInstance.use(store);
 appInstance.mount("#app");
