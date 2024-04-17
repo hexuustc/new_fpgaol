@@ -39,7 +39,7 @@ body {
 }
 
 .colmodule2 {
-  margin: 20px;
+  border: solid #f3fef9; /* 边框作为“padding”的颜色 */
   background: #e3efe9;
   border-radius: 10px;
 }
@@ -59,10 +59,31 @@ body {
 }
 
 .fpgabutton {
-  height: 60px;
-  width: 60px;
+  position: relative;
+  height: 42px;
+  width: 42px;
   border-radius: 50%;
+  border: 0px ;
+  margin:2px;
 }
+
+.container .btn-danger.fpgabutton {
+  position: relative;
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  border: 0;
+  margin: 2px;
+  padding: 0; /* 如果需要 */
+  line-height: 1; /* 如果需要 */
+  /* 其他需要覆盖的样式 */
+}
+
+
+.container .btn-danger.fpgabutton:active {
+  background-color: rgb(246, 135, 159) !important;/* 替换为你想要的颜色245,54,92 */
+}
+
 
 .fpgaline {
   position: relative;
@@ -177,9 +198,9 @@ body {
 }
 
 .fpgalabel3 {
-  width: 42px;
+  width: 44px;
   position: relative;
-  margin: 2px;
+  margin: 1px;
   display: inline-block;
   border-radius: 46px;
 }

@@ -15,6 +15,7 @@ import Program2 from "../views/Program2.vue";
 import Compile from "../views/Compile.vue";
 import CreateProject from "../views/CreateProject.vue";
 import CodeEdit from "../views/CodeEdit.vue";
+import Forum from "../views/Forum.vue";
 
 
 import Login from "../views/Login.vue";
@@ -27,46 +28,46 @@ const routes = [
     redirect: "/program2",
     component: DashboardLayout,
     children: [
-      {
-        path: "/dashboard",
-        name: "dashboard",
-        components: { default: Dashboard },
-      },
-      {
-        path: "/icons",
-        name: "icons",
-        components: { default: Icons },
-      },
-      {
-        path: "/maps",
-        name: "maps",
-        components: { default: Maps },
-      },
-      {
-        path: "/profile",
-        name: "profile",
-        components: { default: Profile },
-      },
-      {
-        path: "/tables",
-        name: "tables",
-        components: { default: Tables },
-      },
-      {
-        path: "/about",
-        name: "about",
-        components: { default: About },
-      },
-      {
-        path: "/home",
-        name: "home",
-        components: { default: Home },
-      },
-      {
-        path: "/program",
-        name: "program",
-        components: { default: Program },
-      },
+      // {
+      //   path: "/dashboard",
+      //   name: "dashboard",
+      //   components: { default: Dashboard },
+      // },
+      // {
+      //   path: "/icons",
+      //   name: "icons",
+      //   components: { default: Icons },
+      // },
+      // {
+      //   path: "/maps",
+      //   name: "maps",
+      //   components: { default: Maps },
+      // },
+      // {
+      //   path: "/profile",
+      //   name: "profile",
+      //   components: { default: Profile },
+      // },
+      // {
+      //   path: "/tables",
+      //   name: "tables",
+      //   components: { default: Tables },
+      // },
+      // {
+      //   path: "/about",
+      //   name: "about",
+      //   components: { default: About },
+      // },
+      // {
+      //   path: "/home",
+      //   name: "home",
+      //   components: { default: Home },
+      // },
+      // {
+      //   path: "/program",
+      //   name: "program",
+      //   components: { default: Program },
+      // },
       {
         path: "/program2",
         name: "program2",
@@ -87,6 +88,11 @@ const routes = [
         name: "codeedit",
         components: { default: CodeEdit },
       },
+      {
+        path: '/forum',
+        name: 'forum',
+        components: { default: Forum },
+      }
     ],
   },
   {

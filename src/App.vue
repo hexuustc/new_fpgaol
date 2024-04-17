@@ -5,6 +5,6 @@
 </template>
 
 <script setup>
-import initWebsocket from "./components/websocket/websocket";
-initWebsocket();
+// import initWebsocket from "./components/websocket/websocket";
+// initWebsocket();
 </script>

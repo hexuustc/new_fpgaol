@@ -30,10 +30,11 @@
             <div class="row">
               <div class="col-2">
                 <el-tree
+                  :key="treeRenderKey"
                   :data="data"
                   :props="defaultProps"
                   highlight-current="true"
-                  node-key="label"
+                  node-key="id"
                   ref="DeviceGroupTree"
                   :expand-on-click-node="false"
                   @node-click="handleNodeClick"
@@ -53,24 +54,33 @@
                 </el-button>
                 <el-button
                   type="text"
+                  v-if="selected == 'code_folder' || data.length == 0"
+                  @click="() => newCodeFolder()"
+                >
+                  新工程
+                </el-button>
+                <el-button
+                  type="text"
                   v-if="selected == 'ip_root'"
                   @click="() => newIp()"
                 >
                   新IP核
                 </el-button>
-                <el-button
+                <!-- <el-button
                   type="text"
                   v-if="selected == 'folder' || selected == 'src_root'"
                   @click="() => newFolder()"
                 >
                   新文件夹
-                </el-button>
+                </el-button> -->
                 <el-button
                   type="text"
                   v-if="
                     selected == 'ipcore' ||
                     selected == 'folder' ||
-                    selected == 'file'
+                    selected == 'file'   ||
+                    selected == 'code_folder' ||
+                    selected == 'CompileId'
                   "
                   @click="() => clickDelete()"
                 >
@@ -81,7 +91,7 @@
                   v-if="
                     selected == 'ipcore' ||
                     selected == 'folder' ||
-                    selected == 'file'
+                    selected == 'file'   
                   "
                   @click="() => clickRename()"
                 >
@@ -91,7 +101,7 @@
               <div class="col-10">
                 <ace
                   v-model="content"
-                  v-if="selected == 'file' || selected == 'xdc'"
+                  v-if="selected == 'file' || selected == 'xdc' || selected=='CompileId'"
                   ref="MyAce"
                   @mychange="edited"
                 >
@@ -387,23 +397,23 @@
                 </div>
               </div>
               <div class="col-2 mt-2">
-                <base-button size="md" type="info" @click="savecode">
+                <base-button size="md" type="info" @click="savecode" title="将代码保存至云端">
                   保存
                 </base-button>
               </div>
               <div class="col-2 mt-2">
-                <base-button size="md" type="info" @click="compile">
+                <base-button size="md" type="info" @click="compile" :disabled="isCompiling" title="将选中的代码工程提交编译">
                   编译
                 </base-button>
               </div>
-              <div class="col-2 mt-2">
+              <!-- <div class="col-2 mt-2">
                 <base-button size="md" type="info" @click="clean">
                   clean storage
                 </base-button>
-              </div>
-              <div class="col-2 mt-2">
+              </div> -->
+              <!-- <div class="col-2 mt-2">
                 {{ save_message }}
-              </div>
+              </div> -->
             </div>
           </card>
         </div>
@@ -424,9 +434,12 @@ export default {
   },
   data() {
     return {
+      treeRenderKey: 0,
       notsaved: false,
       menuVisible: false,
       selected: "",
+      selectedNode: "",
+      selectedNodeId:"",
       save_message: "message here",
       content: "",
       ipcore_params: {},
@@ -492,16 +505,51 @@ export default {
           label: "blk_mem_gen",
         },
       ],
-      data: [
-        {
-          label: "source",
-          type: "src_root",
-          children: [
-            {
-              label: "top.v",
-              type: "file",
-              text:
-                "module top(\n\
+//       data: [
+//         {
+//           label: "source",
+//           type: "src_root",
+//           children: [
+//             {
+//               label: "top.v",
+//               type: "file",
+//               text:
+//                 "module top(\n\
+//   input [7:0] sw,\n\
+//   output [7:0] led\n\
+//   );\n\
+//   \n\
+//   assign led = sw;\n\
+//   \n\
+// endmodule\n",
+//             },
+//           ],
+//         },
+//         {
+//           label: "ipcore",
+//           type: "ip_root",
+//           children: [],
+//         },
+//         {
+//           label: "fpgaol.xdc",
+//           type: "xdc",
+//           text: "## copy the xdc file and paste here",
+//         },
+//       ],
+      init_data: {
+        label: "代码1",
+        type: "code_folder",
+        children:
+        [
+          {
+            label: "source",
+            type: "src_root",
+            children: [
+              {
+                label: "top.v",
+                type: "file",
+                text:
+                  "module top(\n\
   input [7:0] sw,\n\
   output [7:0] led\n\
   );\n\
@@ -509,44 +557,149 @@ export default {
   assign led = sw;\n\
   \n\
 endmodule\n",
-            },
-          ],
-        },
-        {
-          label: "ipcore",
-          type: "ip_root",
-          children: [],
-        },
-        {
-          label: "fpgaol.xdc",
-          type: "xdc",
-          text: "fdfd",
-        },
-      ],
+              },
+            ],
+          },
+          {
+            label: "ipcore",
+            type: "ip_root",
+            children: [],
+          },
+          {
+            label: "fpgaol.xdc",
+            type: "xdc",
+            text: "## copy the xdc file and paste here",
+          },
+        ]
+      },
+      data: [{
+        label: "代码1",
+        type: "code_folder",
+        children:
+        [
+          {
+            label: "source",
+            type: "src_root",
+            children: [
+              {
+                label: "top.v",
+                type: "file",
+                text:
+                  "module top(\n\
+  input [7:0] sw,\n\
+  output [7:0] led\n\
+  );\n\
+  \n\
+  assign led = sw;\n\
+  \n\
+endmodule\n",
+              },
+            ],
+          },
+          {
+            label: "ipcore",
+            type: "ip_root",
+            children: [],
+          },
+          {
+            label: "fpgaol.xdc",
+            type: "xdc",
+            text: "## copy the xdc file and paste here",
+          },
+        ]
+      }],
       defaultProps: {
         children: "children",
         label: "label",
       },
+      res:{},
+      isCompiling: false,
     };
   },
   mounted() {
-    if (localStorage.getItem("code_data") === null) {
-      this.init_localstorage();
-    }
-    this.data = JSON.parse(localStorage.getItem("code_data"));
+    let token = localStorage.getItem('Authorization');
+    var form = new FormData();
+    form.append('token', token)
+    axios
+        .post('http://202.38.79.96:9001/code', form)
+        .then(response => {
+            console.log(response.data);
+            switch(response.data.code) {
+                case 0:
+                    // 如果code为0，跳转到登录页面
+                    this.$router.push('/login');
+                    break;
+                case 1:
+                    // 如果code为1，将返回的数据赋给data
+                    this.data = response.data.data;
+                    break;
+                case 2:
+                    // 如果code为2，设置data为默认值
+                    console.log("no remote data");
+                    break;
+                default:
+                    // 处理其他情况
+                    console.error('未知的响应代码');
+            }
+        })
+        .catch(error => {
+            console.error('请求失败:', error);
+        });
+    // if (localStorage.getItem("code_data") === null) {
+    //   this.init_localstorage();
+    // }
+    // this.data = JSON.parse(localStorage.getItem("code_data"));
+    this.assignIdsTree();
   },
   methods: {
-    init_localstorage() {
-      localStorage.setItem("code_data", JSON.stringify(this.data));
+    // init_localstorage() {
+    //   localStorage.setItem("code_data", JSON.stringify(this.data));
+    // },
+    assignIdsTree(){
+      // 使用该函数为树中的每个节点分配ID
+      this.data.forEach((rootNode, index) => {
+      // 确保索引是两位数
+      const rootId = index < 10 ? `0${index}` : `${index}`;
+      this.assignIds(rootNode, rootId);
+    });
+    },
+    assignIds(node, parentId = '') {
+      node.id = parentId;
+      if (node.children) {
+        node.children.forEach((child, index) => {
+          // 确保索引是两位数，例如：00, 01, 02, ..., 10, 11, ...
+          const childId = index < 10 ? `0${index}` : `${index}`;
+          this.assignIds(child, `${parentId}${childId}`);
+        });
+      }
     },
     clean() {
       localStorage.removeItem("code_data");
     },
     handleNodeClick(data) {
       this.selected = data.type;
-      if (data.type == "file" || data.type == "xdc") {
+      this.selectedNode = data;
+      this.selectedNodeId = data.id;
+      console.log(this.selectedNodeId)
+      if (data.type == "file" || data.type == "xdc" || data.type == "CompileId") {
         this.content = data.text;
-        this.$refs.MyAce.setValue(this.content);
+        this.$nextTick(() => {
+          if (this.$refs.MyAce) {
+            // 设置内容
+            this.$refs.MyAce.setValue(this.content);
+            // 根据不同类型设置不同的模式
+            let mode;
+            if (data.type === "file") {
+              mode = "ace/mode/verilog"; // 使用 Verilog 模式
+            } else if (data.type === "xdc" || data.type == "CompileId") {
+              mode = "ace/mode/text"; // 使用 Text 模式
+            }
+            // 应用模式
+            if (mode) {
+              this.$refs.MyAce.setMode(mode);
+            }
+          }
+        });
       } else if (data.type == "ipcore") this.ipcore_params = data.params;
     },
     params_change() {
@@ -558,9 +711,39 @@ endmodule\n",
       this.notsaved = true;
     },
     savecode() {
-      localStorage.setItem("code_data", JSON.stringify(this.data));
-      this.notsaved = false;
-      console.log(JSON.stringify(this.data));
+      // localStorage.setItem("code_data", JSON.stringify(this.data));
+      // this.notsaved = false;
+      // console.log(JSON.stringify(this.data));
+      let token = localStorage.getItem('Authorization');
+      var form = new FormData();
+      form.append('token', token);
+      form.append('data', JSON.stringify(this.data)); // 假设 this.data 包含要保存的数据
+
+      axios.post('http://202.38.79.96:9001/savecode', form)
+          .then(response => {
+              console.log(response.data);
+              switch(response.data.code) {
+                  case 0:
+                      // 如果code为0，跳转到登录页面
+                      this.$router.push('/login');
+                      break;
+                  case 1:
+                      // 如果code为1，提示保存成功
+                      // 这里可以使用你的UI框架的悬浮框组件，比如使用Element UI的Message组件
+                      this.$message({
+                          message: '保存成功',
+                          type: 'success'
+                      });
+                      this.notsaved = false;
+                      break;
+                  default:
+                      // 处理其他情况
+                      console.error('未知的响应代码');
+              }
+          })
+          .catch(error => {
+              console.error('请求失败:', error);
+          });
     },
     newFile() {
       var node = this.$refs.DeviceGroupTree.getCurrentNode();
@@ -568,9 +751,47 @@ endmodule\n",
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(({ value }) => {
-        node.children.push({ label: value, type: "file", text: "" });
-        this.notsaved = true;
+        // 使用正则表达式验证输入
+        var isValid = /^[a-zA-Z][a-zA-Z0-9-_]*$/.test(value);
+        if (isValid) {
+          node.children.push({ label: value+".v", type: "file", text: "" });
+          this.notsaved = true;
+          this.assignIdsTree();
+        } else {
+          // 如果不符合格式，提示用户
+          this.$alert("文件名只能包含字母、数字、连字符和下划线", "无效的文件名", {
+            confirmButtonText: "确定"
+          });
+        }
       });
+    },
+    newCodeFolder() {
+      // var node = this.$refs.DeviceGroupTree.getCurrentNode();
+      // this.$prompt("请输入文件名", "文件名", {
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消",
+      // }).then(({ value }) => {
+      //   // 使用正则表达式验证输入
+      //   var isValid = /^[a-zA-Z][a-zA-Z0-9-_]*$/.test(value);
+      //   if (isValid) {
+      //     node.children.push({ label: value+".v", type: "file", text: "" });
+      //     this.notsaved = true;
+      //     this.assignIdsTree();
+      //   } else {
+      //     // 如果不符合格式，提示用户
+      //     this.$alert("文件名只能包含字母、数字、连字符和下划线", "无效的文件名", {
+      //       confirmButtonText: "确定"
+      //     });
+      //   }
+      // });
+      var length = this.data.length;
+      // 创建一个新对象的深拷贝
+      var data_temp = JSON.parse(JSON.stringify(this.init_data));
+      data_temp['label']="代码"+(length+1);
+      this.data.push(data_temp);
+      console.log(this.data)
+      this.notsaved = true;
+      this.assignIdsTree();
     },
     newIp() {
       var node = this.$refs.DeviceGroupTree.getCurrentNode();
@@ -578,8 +799,18 @@ endmodule\n",
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(({ value }) => {
-        node.children.push({ label: value, type: "ipcore", params: {} });
-        this.notsaved = true;
+        // 使用正则表达式验证输入
+        var isValid = /^[a-zA-Z][a-zA-Z0-9-_]*$/.test(value);
+        if (isValid) {
+          node.children.push({ label: value, type: "ipcore", params: {} });
+          this.notsaved = true;
+          this.assignIdsTree();
+        } else {
+          // 如果不符合格式，提示用户
+          this.$alert("IP核名只能包含字母、数字、连字符和下划线", "无效的文件名", {
+            confirmButtonText: "确定"
+          });
+        }
       });
     },
     newFolder() {
@@ -588,25 +819,59 @@ endmodule\n",
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(({ value }) => {
-        node.children.push({ label: value, type: "folder", children: [] });
-        this.notsaved = true;
+        // 使用正则表达式验证输入
+        var isValid = /^[a-zA-Z][a-zA-Z0-9-_]*$/.test(value);
+        if (isValid) {
+          node.children.push({ label: value, type: "folder", children: [] });
+          this.notsaved = true;
+          this.assignIdsTree();
+        } else {
+          // 如果不符合格式，提示用户
+          this.$alert("文件名只能包含字母、数字、连字符和下划线", "无效的文件名", {
+            confirmButtonText: "确定"
+          });
+        }
+      });
+    },
+    relabelCodeFolders() {
+      this.data.forEach((item, index) => {
+        if (item.type === 'code_folder') {
+          item.label = `代码${index + 1}`;
+        }
       });
     },
     clickDelete() {
-      // TODO: 这里需要约束全局 label 不能重复！！！
       const key = this.$refs.DeviceGroupTree.getCurrentKey();
       const node = this.$refs.DeviceGroupTree.getNode(key);
-      const removeLabel = (dataArray, label) => {
-        dataArray.forEach((item, index) => {
-          if (item.label === label) {
-            dataArray.splice(index, 1);
+      console.log(key,node)
+      console.log(node.data.id)
+      // const removeLabel = (dataArray, label) => {
+      //   dataArray.forEach((item, index) => {
+      //     if (item.label === label) {
+      //       dataArray.splice(index, 1);
+      //     } else if (item.children) {
+      //       removeLabel(item.children, label);
+      //     }
+      //   });
+      // };
+      // removeLabel(this.data, node.data.label);
+      const removeNodeById = (dataArray, nodeId) => {
+        for (let i = 0; i < dataArray.length; i++) {
+          const item = dataArray[i];
+          if (item.id === nodeId) {
+            dataArray.splice(i, 1);
+            break; // 找到并删除节点后退出循环
           } else if (item.children) {
-            removeLabel(item.children, label);
+            removeNodeById(item.children, nodeId);
           }
-        });
+        }
       };
-      removeLabel(this.data, node.data.label);
+    
+      removeNodeById(this.data, node.data.id);
       this.notsaved = true;
+      this.treeRenderKey++;
+      this.assignIdsTree();
+      this.relabelCodeFolders(); // 调用重新标记的函数
     },
     clickRename() {
       this.$prompt("请输入新名字", "新名字", {
@@ -614,9 +879,18 @@ endmodule\n",
         cancelButtonText: "取消",
       })
         .then(({ value }) => {
-          var node = this.$refs.DeviceGroupTree.getCurrentNode();
-          node.label = value;
-          this.notsaved = true;
+          // 使用正则表达式验证输入
+          var isValid = /^[a-zA-Z][a-zA-Z0-9-_]*$/.test(value);
+          if (isValid) {
+            var node = this.$refs.DeviceGroupTree.getCurrentNode();
+            node.label = value;
+            this.notsaved = true;
+          } else {
+            // 如果不符合格式，提示用户
+            this.$alert("文件名只能包含字母、数字、连字符和下划线", "无效的文件名", {
+              confirmButtonText: "确定"
+            });
+          }
         })
         .catch(() => {
           this.$message({
@@ -626,19 +900,81 @@ endmodule\n",
         });
     },
     compile() {
-      const json = JSON.stringify(this.data);
-      axios
-        .post("http://202.38.79.96:18888/submit_proj_json", json, {
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
+      // const json = JSON.stringify(this.data);
+      // axios
+      //   .post("http://202.38.79.96:18888/submit_proj_json", json, {
+      //     // headers: {
+      //     //   "Content-Type": "application/json",
+      //     // },
+      //   })
+      //   .then((res) => {
+      //     console.log(res.data);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      if (this.isCompiling) {
+        console.log("请等待一分钟后再尝试编译");
+        this.$alert("请等待一分钟后再尝试编译", "编译中", {
+          confirmButtonText: "确定"
         });
+        return;
+      }
+      this.isCompiling = true;
+      setTimeout(() => {
+        this.isCompiling = false;
+      }, 60000); // 60秒后重新启用按钮
+
+      if (this.selectedNodeId) {
+        let rootFolder = this.data[parseInt(this.selectedNodeId[0]+this.selectedNodeId[1])]
+        console.log(rootFolder);
+        if (rootFolder) {
+          const children = rootFolder.children;
+          let token = localStorage.getItem('Authorization');
+          const payload = {
+            token: token,
+            data: children  // 假设这是要发送的数据
+          };
+          // 假设 rootFolder 是你要操作的目录对象
+          let compileIdNode = rootFolder.children.find(child => child.type === "CompileId");
+          // const json = JSON.stringify(children);
+          // console.log(json);
+          axios.post("http://202.38.79.96:18888/submit_proj_json", payload)
+          .then(res => {
+            console.log("编译成功", res.data);
+            // 这里可以添加一个提示框来显示编译成功的消息
+            // 例如使用 Element UI 或其他 UI 框架的提示组件
+            this.$message({
+              message: '提交编译成功',
+              type: 'success'
+            });
+            let jobid = res.data["id"]
+            let compileIdText = jobid +"\n"+ "以上为此代码的编译ID(最上面为最新编译),可在编译页面查看";
+            // 更新或添加 CompileId 节点
+            if (compileIdNode) {
+              compileIdText = jobid+"\n" + compileIdNode.text;
+              compileIdNode.text = compileIdText;
+            } else {
+              rootFolder.children.push({ label: "CompileId.txt", type: "CompileId", text: compileIdText });
+            }
+            this.assignIdsTree();
+            this.savecode();
+          })
+          .catch(err => {
+            console.log("编译失败", err);
+            this.$alert("编译失败", "编译失败", {
+              confirmButtonText: "确定"
+            });
+          });
+        } else {
+          console.log("Root folder not found");
+        }
+      } else {
+        console.log("No node selected");
+        this.$alert("请选中代码然后编译", "未选中代码", {
+              confirmButtonText: "确定"
+        });
+      }
     },
   },
 };

@@ -83,7 +83,7 @@
         >
           <polygon
             class="fill-default"
-            points="2560 0 2560 100 0 100"
+            points="2560 0 2560 110 0 110 0 100 "
           ></polygon>
         </svg>
       </div>

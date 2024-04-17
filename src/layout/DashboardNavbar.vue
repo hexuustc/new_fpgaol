@@ -27,7 +27,7 @@
               <span class="avatar avatar-sm rounded-circle">
                 <img
                   alt="Image placeholder"
-                  src="https://avatars.githubusercontent.com/u/55642318"
+                  src="img/theme/FPGAOL_LOGO.png"
                 />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
@@ -38,10 +38,10 @@
           <div class="dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome!</h6>
           </div>
-          <router-link to="/profile" class="dropdown-item">
+          <!-- <router-link to="/profile" class="dropdown-item">
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
-          </router-link>
+          </router-link> -->
           <!-- <router-link to="/profile" class="dropdown-item">
             <i class="ni ni-settings-gear-65"></i>
             <span>Settings</span>

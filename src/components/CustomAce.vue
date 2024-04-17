@@ -150,6 +150,9 @@
         this.node_change=true
         this.aceEditor.getSession().setValue(value)
         this.node_change=false
+      },
+      setMode(mode){
+        this.aceEditor.getSession().setMode(mode)
       }
     }
   }

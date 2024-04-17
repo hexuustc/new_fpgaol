@@ -4,7 +4,7 @@
       class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
       style="
         min-height: 600px;
-        background-image: url(img/theme/profile-cover.jpg);
+        background-image: url(img/theme/FPGAOL_LOGO.png);
         background-size: cover;
         background-position: center top;
       "
@@ -35,7 +35,7 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="https://avatars.githubusercontent.com/u/55642318"
+                      src="img/theme/pikachu.png"
                       class="rounded-circle"
                     />
                   </a>

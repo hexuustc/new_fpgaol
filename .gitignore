@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+src/components/websocket/mywebsocket.js
+src/components/websocket/websocket_bak.js
+src/views/myprogram2.vue
+src/views/Program2_bak.vue

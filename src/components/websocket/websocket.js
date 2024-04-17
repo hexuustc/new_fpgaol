@@ -7,17 +7,37 @@ let DEBUG_WS_SERVER = "202.38.79.96:12148";
 let notifySocket;
 let PI_SERVER_ADDRESS = window.location.host;
 
-export default function initWebsocket() {
-  if (DEBUG_MODE) {
-    notifySocket = new WebSocket("ws://" + DEBUG_WS_SERVER + "/ws/");
-  } else {
-    notifySocket = new WebSocket("ws://" + PI_SERVER_ADDRESS + "/ws/");
+let pi_id = 0;
+let timeoutId;
+
+export default function initWebsocket(allocated_pi) {
+  pi_id = allocated_pi;
+  const piPadded = String(allocated_pi).padStart(3, '0');
+  const wsAddress = `ws://202.38.79.96:12${piPadded}/ws/`;
+  console.log(wsAddress)
+  // if (DEBUG_MODE) {
+  //   notifySocket = new WebSocket("ws://" + DEBUG_WS_SERVER + "/ws/");
+  // } else {
+  //   notifySocket = new WebSocket("ws://" + PI_SERVER_ADDRESS + "/ws/");
+  // }
+  if (notifySocket && notifySocket.readyState === WebSocket.OPEN) {
+    notifySocket.close();
   }
+  notifySocket = new WebSocket(wsAddress);
+  notifySocket.onopen = function (event) {
+    // 在这里处理连接成功的情况
+    console.log("WebSocket connection successfully established");
+    emitter.emit("websocket_connect",true);
+    // 设置 20 分钟后自动断开连接
+    timeoutId = setTimeout(() => {
+      closeWebSocket();
+    }, 20 * 60 * 1000);  // 20 分钟
+  };  
   notifySocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     console.log("receive message:", data);
     //print("hhh");
-    console.log("bbb");
+    // console.log("bbb");
     const type = data["type"];
     const idx = data["idx"];
     let payload = data["payload"];
@@ -35,7 +55,32 @@ export default function initWebsocket() {
       emitter.emit("dispatch-xdc", payload);
     }
   };
+  notifySocket.onclose = function (event) {
+    // 在这里处理连接关闭的情况
+    console.log("WebSocket connection closed", event);
+    emitter.emit("websocket_connect",false);
+  };
 }
+
+export function getWebSocketStatus() {
+  return [notifySocket ? notifySocket.readyState : WebSocket.CLOSED, pi_id];
+}
+
+
+function closeWebSocket() {
+  if (notifySocket) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);  // 清除定时器
+    }
+    sendStopNotify();
+    notifySocket.close();
+    console.log("WebSocket connection closed");
+  }
+}
+
+emitter.on("close-socket", function () {
+  closeWebSocket();
+});
 
 function sendJson(json) {
   console.log("websocket sendjson: ",json);

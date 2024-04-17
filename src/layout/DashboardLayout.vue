@@ -10,7 +10,7 @@
         <sidebar-item
           :link="{
             name: '建立工程',
-            icon: 'ni ni-tv-2 text-primary',
+            icon: 'ni ni-settings text-primary',
             path: '/createproject',
           }"
         />
@@ -18,25 +18,39 @@
         <sidebar-item
           :link="{
             name: '文件编辑',
-            icon: 'ni ni-planet text-blue',
+            icon: 'fa fa-code text-info',
             path: '/codeedit',
           }"
         />
         <sidebar-item
           :link="{
             name: '工程编译',
-            icon: 'ni ni-pin-3 text-orange',
+            icon: 'fa fa-retweet text-orange',
             path: '/compile',
           }"
         />
         <sidebar-item
           :link="{
             name: '工程烧写',
-            icon: 'ni ni-single-02 text-yellow',
+            icon: 'fas fa-microchip text-red',
             path: '/program2',
           }"
         />
+        <!-- <sidebar-item
+          :link="{
+            name: '旧烧写页面',
+            icon: 'ni ni-single-02 text-yellow',
+            path: '/program',
+          }"
+        /> -->
         <sidebar-item
+          :link="{
+            name: '论坛交流',
+            icon: 'far fa-regular fa-comment text-yellow',
+            path: '/forum',
+          }"
+        />
+        <!-- <sidebar-item
           :link="{
             name: '文档',
             icon: 'ni ni-bullet-list-67 text-red',
@@ -81,7 +95,7 @@
             icon: 'ni ni-bullet-list-67 text-red',
             path: '/tables',
           }"
-        />
+        /> -->
         <button class="toggle-btn text-info" @click="toggleSidebar">
           <i class="ni ni-bold-left"></i> <!-- 使用 Font Awesome 的箭头图标 -->
         </button>

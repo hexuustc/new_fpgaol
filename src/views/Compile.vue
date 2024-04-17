@@ -5,8 +5,8 @@
 
     <div class="container-fluid mt--7 px-0">
       <!--Charts-->
-      <div class="row">
-        <div class="col-xl-6 mb-5 mb-xl-0">
+      <div class="row justify-content-center">
+        <div class="col-xl-6 mb-5 mb-xl-0" v-if="false">
           <card header-classes="bg-transparent">
             <template v-slot:header>
               <div class="row align-items-center">
@@ -96,7 +96,7 @@
           </card>
         </div>
 
-        <div class="col-xl-6">
+        <div class="col-xl-8">
           <card header-classes="bg-transparent">
             <template v-slot:header>
               <div class="row align-items-center">
@@ -157,6 +157,7 @@
                           )
                         "
                         outline
+                        title="下载比特流"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +189,7 @@
                         outline
                       >
                         <template v-slot:title>
-                          <div>
+                          <div title="下载日志及时间资源报告">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -223,6 +224,16 @@
                           :href="
                             'http://202.38.79.96:18887/' +
                             site[0] +
+                            '/error.log'
+                          "
+                          v-if="site[1] == 4"
+                          >error.log</a
+                        >
+                        <a
+                          class="dropdown-item"
+                          :href="
+                            'http://202.38.79.96:18887/' +
+                            site[0] +
                             '/results/timing.rpt'
                           "
                           v-if="site[1] == 3"
@@ -241,7 +252,7 @@
                       </base-dropdown>
                     </div>
                     <div class="col text-right">
-                      <base-button size="sm" type="danger" class="row" outline>
+                      <base-button size="sm" type="danger" class="row" outline disabled title="删除编译记录，暂不可用">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -306,7 +317,7 @@ export default {
         default: 1,
       },
       hhh: 0,
-      value: 2,
+      value: 1,
       hideArrow: false,
       joblist: [[]],
     };
@@ -316,12 +327,27 @@ export default {
   },
   methods: {
     updateJobList() {
-      axios.get("http://202.38.79.96:18888/api_joblist").then((response) => {
-        const joblist_resp = response.data["data"];
-        joblist_resp.sort(function (a, b) {
-          return a[2] < b[2] ? 1 : -1;
-        });
-        this.joblist = joblist_resp;
+      let token = localStorage.getItem('Authorization');
+      var form = new FormData();
+      form.append('token', token);
+      axios.post("http://202.38.79.96:18888/api_joblist", form).then((response) => {
+        if (response.data["code"]==1){
+          const joblist_resp = response.data["data"];
+          console.log(joblist_resp)
+          joblist_resp.sort(function (a, b) {
+            return a[2] < b[2] ? 1 : -1;
+          });
+          this.joblist = joblist_resp;
+          console.log(this.joblist);
+        }
+        else if (response.data["code"]==0){
+          this.$router.push('/login');
+        }
+        else{
+          this.joblist = [[]];
+        }
+      }).catch((error) => {
+      console.error("请求失败:", error);
       });
     },
     selectFile() {
@@ -334,7 +360,7 @@ export default {
         this.filename = "";
       }
     },
-    submit() {
+    submit() {//need to update
       form.append("inputJobId", this.JobId),
         form.append("inputFPGA", this.fpga);
       if (this.selectFileobj == null) {

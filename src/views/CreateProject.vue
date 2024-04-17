@@ -3,6 +3,28 @@
     <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-5">
     </base-header>
 
+    <!-- Modal -->
+    <div class="modal fade" :class="{ 'show': showModal }" tabindex="-1" role="dialog" v-if="showModal" style="display: block;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Warning</h5>
+            <button type="button" class="close" @click="showModal = false">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {{ modalMessage }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-backdrop fade" :class="{ 'show': showModal }" v-if="showModal"></div>
+
+
     <div class="container-fluid mt--7 px-0">
       <!--Charts-->
       <div class="row">
@@ -19,14 +41,14 @@
               </div>
             </template>
             <div class="row">
-              <div class="col-6">
+              <!-- <div class="col-6">
                 <base-input
                   label="工程名"
                   placeholder="0000"
                   input-classes="form-control-alternative"
                   v-model="ProjectName"
                 />
-              </div>
+              </div> -->
               <div class="col-12">
                 <div>
                   <label class="form-control-label"> 布局 </label>
@@ -36,7 +58,7 @@
               <div class="col-12">
                 <card header-classes="bg-transparent">
                   <div class="row">
-                    <div class="col-3"></div>
+                    <!-- <div class="col-3"></div>
                     <div class="col-6 text-center">
                       <center>
                         <div>
@@ -51,174 +73,193 @@
                         </select>
                       </center>
                     </div>
-                    <div class="col-3"></div>
+                    <div class="col-3"></div> -->
                     <div class="mt-5 row col-12">
-                      <div class="col-1 mr--4">LED:</div>
-                      <div class="col-1 mr--5">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="LED = LED - 1"
-                        >
-                          -
-                        </base-button>
+<!-- ----------------------------LED------------------------------------------------------------>
+                      <div class="col-lg-4 row">
+                        <div class="text_padding">LED:</div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="decrease('LED')"
+                          >
+                            -
+                          </base-button>
+                        </div>
+                        <div class="input_padding text-center">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              :value="LED"
+                              @input="validateInput($event,'LED')"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="increase('LED')"
+                          >
+                            +
+                          </base-button>
+                        </div>
                       </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="LED"
-                          />
-                        </center>
+<!-- ----------------------------SW------------------------------------------------------------>
+                      <div class="col-lg-4 row">
+                        <div class="text_padding">SW:</div>
+                        <div>
+                          <base-button size="sm" type="info" @click="decrease('SW')">
+                            -
+                          </base-button>
+                        </div>
+                        <div class="input_padding text-center">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              :value="SW"
+                              @input="validateInput($event,'SW')"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button size="sm" type="info" @click="increase('SW')">
+                            +
+                          </base-button>
+                        </div>
                       </div>
-                      <div class="col-1 mr">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="LED = LED + 1"
-                        >
-                          +
-                        </base-button>
-                      </div>
-
-                      <div class="col-1 mr--4">SW:</div>
-                      <div class="col-1 mr--5">
-                        <base-button size="sm" type="info" @click="SW = SW - 1">
-                          -
-                        </base-button>
-                      </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="SW"
-                          />
-                        </center>
-                      </div>
-                      <div class="col-1 mr">
-                        <base-button size="sm" type="info" @click="SW = SW + 1">
-                          +
-                        </base-button>
-                      </div>
-
-                      <div class="col-1 mr--4">BTN:</div>
-                      <div class="col-1 mr--5">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="BTN = BTN - 1"
-                        >
-                          -
-                        </base-button>
-                      </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="BTN"
-                          />
-                        </center>
-                      </div>
-                      <div class="col-1 mr">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="BTN = BTN + 1"
-                        >
-                          +
-                        </base-button>
-                      </div>
+<!-- ----------------------------BTN------------------------------------------------------------>
+                      <div class="col-lg-4 row">
+                        <div class="text_padding">BTN:</div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="decrease('BTN')"
+                          >
+                            -
+                          </base-button>
+                        </div>
+                        <div class="input_padding text-center">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              :value="BTN"
+                              @input="validateInput($event,'BTN')"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="increase('BTN')"
+                          >
+                            +
+                          </base-button>
+                        </div>
+                      </div>  
                     </div>
 
                     <div class="mt-1 row col-12">
-                      <div class="col-1 mr--4">SEG:</div>
-                      <div class="col-1 mr--5">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="SEG = SEG - 1"
-                        >
-                          -
-                        </base-button>
+<!-- ----------------------------SEG------------------------------------------------------------>
+                      <!-- <div class="col-lg-4 row">
+                        <div class="text_padding">SEG:</div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="SEG = SEG - 1"
+                          >
+                            -
+                          </base-button>
+                        </div>
+                        <div class="input_padding text-center">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              v-model="SEG"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="SEG = SEG + 1"
+                          >
+                            +
+                          </base-button>
+                        </div>
+                      </div> -->
+<!-- ----------------------------HEX------------------------------------------------------------>
+                      <div class="col-lg-4 row">
+                        <div class="text_padding">HEX:</div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="decrease('HEX')"
+                          >
+                            -
+                          </base-button>
+                        </div>
+                        <div class="text-center input_padding">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              :value="HEX"
+                              @input="validateInput($event,'HEX')"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="increase('HEX')"
+                          >
+                            +
+                          </base-button>
+                        </div>
                       </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="SEG"
-                          />
-                        </center>
-                      </div>
-                      <div class="col-1 mr">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="SEG = SEG + 1"
-                        >
-                          +
-                        </base-button>
-                      </div>
-
-                      <div class="col-1 mr--4">HEX:</div>
-                      <div class="col-1 mr--5">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="HEX = HEX - 1"
-                        >
-                          -
-                        </base-button>
-                      </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="HEX"
-                          />
-                        </center>
-                      </div>
-                      <div class="col-1 mr">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="HEX = HEX + 1"
-                        >
-                          +
-                        </base-button>
-                      </div>
-
-                      <div class="col-1 mr--4">UART:</div>
-                      <div class="col-1 mr--5">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="UART = UART - 1"
-                        >
-                          -
-                        </base-button>
-                      </div>
-                      <div class="col-1 text-center mr--4">
-                        <center>
-                          <base-input
-                            placeholder="0"
-                            input-classes="form-control-alternative"
-                            v-model="UART"
-                          />
-                        </center>
-                      </div>
-                      <div class="col-1 mr">
-                        <base-button
-                          size="sm"
-                          type="info"
-                          @click="UART = UART + 1"
-                        >
-                          +
-                        </base-button>
+<!-- ----------------------------UART------------------------------------------------------------>
+                      <div class="col-lg-4 row">
+                        <div class="text_padding">UART:</div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="decrease('UART')"
+                          >
+                            -
+                          </base-button>
+                        </div>
+                        <div class="input_padding text-center">
+                          <center>
+                            <base-input
+                              placeholder="0"
+                              input-classes="form-control-alternative"
+                              :value="UART"
+                              @input="validateInput($event,'UART')"
+                            />
+                          </center>
+                        </div>
+                        <div>
+                          <base-button
+                            size="sm"
+                            type="info"
+                            @click="increase('UART')"
+                          >
+                            +
+                          </base-button>
+                        </div>
                       </div>
                     </div>
 
@@ -235,7 +276,7 @@
                   </div>
                 </card>
               </div>
-              <div class="col-2">
+              <div class="col-2 mt-3">
                 <base-button size="md" type="info" @click="hasxdc = !hasxdc">
                   查看xdc
                 </base-button>
@@ -262,30 +303,33 @@ import emitter from "../components/websocket/event_bus";
 export default {
   components: {},
   mounted() {
-    emitter.on("dispatch-xdc", (payload) => {
-      this.xdc = payload;
-    });
+    // emitter.on("dispatch-xdc", (payload) => {
+    //   this.xdc = payload;
+    // });
     // 从 localStorage 中查询 LED, SW, BTN, SEG, UART, HEX
     // 如果有，则覆盖（需要转换为 number）
-    // 如果没有，则保持 0
-    this.LED = Number(localStorage.getItem("LED")) || 0;
-    this.SW = Number(localStorage.getItem("SW")) || 0;
-    this.BTN = Number(localStorage.getItem("BTN")) || 0;
+    // 如果没有，则保持 默认值
+    this.LED = Number(localStorage.getItem("LED")) || 8;
+    this.SW = Number(localStorage.getItem("SW")) || 8;
+    this.BTN = Number(localStorage.getItem("BTN")) || 1;
     this.SEG = Number(localStorage.getItem("SEG")) || 0;
-    this.UART = Number(localStorage.getItem("UART")) || 0;
-    this.HEX = Number(localStorage.getItem("HEX")) || 0;
+    this.UART = Number(localStorage.getItem("UART")) || 1;
+    this.HEX = Number(localStorage.getItem("HEX")) || 1;
+    this.genPeriph();
   },
   data() {
     return {
+      showModal: false,
+      modalMessage: '',
       ProjectName: "0000",
       layout: "默认",
-      LED: 0,
-      SW: 0,
-      BTN: 0,
+      LED: 8,
+      SW: 8,
+      BTN: 1,
       SEG: 0,
-      UART: 0,
-      HEX: 0,
-      total_pin: 42,
+      UART: 1,
+      HEX: 1,
+      total_pin: 31,
       xdc:
         "## This file is a general .xdc for FPGAOL2_BOARD (adopted from Nexys4 DDR Rev. C)\n\
 ## To use it in a project:\n\
@@ -339,6 +383,11 @@ export default {
 #set_property -dict { PACKAGE_PIN E5    IOSTANDARD LVCMOS33 } [get_ports { UART_RTS }]; #IO_L5N_T0_AD13N_35 Sch=uart_rts\n\
 ",
       hasxdc: false,
+      gpio_common: ["K17", "K18", "L14", "M14", "L18", "M18", "R12",  "M13",
+                    "P14", "P18", "T10", "T9", "U13", "T13", "V14", "U14", 
+                    "V11", "V12", "U12", "U11", "T11", "V17", "U16", "U18",
+                    "U17", "V16",  "F3", "F4", "G6", "E7", "D8"],//任意使用的管脚
+      gpio_uart: ["M17", "M16"]//串口专属管脚
     };
   },
   watch: {
@@ -376,8 +425,8 @@ export default {
         this.SW -
         this.BTN -
         8 * is_seg -
-        7 * is_hex -
-        2 * this.UART
+        7 * is_hex 
+        // - 2 * this.UART
       );
     },
   },
@@ -385,17 +434,77 @@ export default {
     genPeriph() {
       var led_cnt = this.LED;
       var sw_cnt = this.SW;
+      var btn_cnt = this.BTN;
       var uart_cnt = this.UART;
       var hexplay_cnt = this.HEX;
 
-      var j = { id: -2, periphs: [] };
+      var xdc_temp = "";
+      var cnt_start = 0
+      var j = 0;
+      //生成clk管脚
+      xdc_temp += "# FPGAOL AUTO GEN XDC V2.0\n\n"
+      xdc_temp += "set_property -dict {PACKAGE_PIN B8 IOSTANDARD LVCMOS33} [get_ports {clk}];\n"
+      xdc_temp += "create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {clk}];\n\n"
+      //生成led管脚
+      for (let i = 0; i < led_cnt; i++) {
+        xdc_temp += "set_property -dict {PACKAGE_PIN ";
+        xdc_temp += this.gpio_common[i];
+        xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {led["+i+"]}];\n"
+      }
+      if (led_cnt) {xdc_temp +="\n"}
+      //生成sw管脚
+      cnt_start = led_cnt;
+      for (let i = cnt_start; i < cnt_start+sw_cnt; i++) {
+        xdc_temp += "set_property -dict {PACKAGE_PIN ";
+        xdc_temp += this.gpio_common[i];
+        xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {sw["+(i-cnt_start)+"]}];\n"
+      }
+      if (sw_cnt) {xdc_temp +="\n"}
+      //生成btn管脚
+      cnt_start = cnt_start+sw_cnt;
+      for (let i = cnt_start; i < cnt_start+btn_cnt; i++) {
+        xdc_temp += "set_property -dict {PACKAGE_PIN ";
+        xdc_temp += this.gpio_common[i];
+        xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {btn["+(i-cnt_start)+"]}];\n"
+      }
+      if (btn_cnt) {xdc_temp +="\n"}
+      //生成uart管脚
+      if (uart_cnt>0) {
+        xdc_temp += "set_property -dict {PACKAGE_PIN "
+        xdc_temp += this.gpio_uart[0]
+        xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {uart_rx}];\n"
+        xdc_temp += "set_property -dict {PACKAGE_PIN "
+        xdc_temp += this.gpio_uart[1]
+        xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {uart_tx}];\n"
+      }
+      if (uart_cnt) {xdc_temp +="\n"}
+      //生成hexplay管脚
+      cnt_start = cnt_start+btn_cnt;
+      for (let i = cnt_start; i < cnt_start+hexplay_cnt*7; i++) {
+        j = (i-cnt_start)%7
+        if (j<3){
+          xdc_temp += "set_property -dict {PACKAGE_PIN ";
+          xdc_temp += this.gpio_common[i];
+          xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {hexplay"+parseInt((i-cnt_start)/7)+"_an["+j+"]}];\n"
+        }
+        else {
+          xdc_temp += "set_property -dict {PACKAGE_PIN ";
+          xdc_temp += this.gpio_common[i];
+          xdc_temp += " IOSTANDARD LVCMOS33} [get_ports {hexplay"+parseInt((i-cnt_start)/7)+"_d["+(j-3)+"]}];\n"
+        }
+      }
+
+      this.xdc = xdc_temp
+
+
+      j = { id: -2, periphs: [] };
       for (let i = 0; i < led_cnt; i++) {
         j.periphs.push({
           type: "LED",
           idx: i,
         });
       }
-      for (let i = 0; i < sw_cnt; i++) {
+      for (let i = 0; i < sw_cnt+btn_cnt; i++) {
         j.periphs.push({
           type: "BTN",
           idx: i,
@@ -414,17 +523,97 @@ export default {
           idx: i,
         });
       }
-
-      window.json = j;
-      emitter.emit("stop-notify");
-      emitter.emit("submit-json", JSON.stringify(j));
+      
+      j["led"]=led_cnt;
+      j["sw"]=sw_cnt;
+      j["btn"]=btn_cnt;
+      j["uart"]=uart_cnt;
+      j["hexplay"]=hexplay_cnt;
+      localStorage.setItem("periphs", JSON.stringify(j));
+      // window.json = j;
+      // emitter.emit("stop-notify");
+      // emitter.emit("submit-json", JSON.stringify(j));
     },
+    decrease(periph) {
+      if (periph == "LED" || periph == "SW" || periph == "BTN" || periph == "HEX" || periph == "UART")
+      {
+        if (this[periph]>0) this[periph] -=1;
+        else 
+        {
+          this.modalMessage = "外设数量不能小于0";
+          this.showModal = true;
+        }
+      }
+      else 
+      {
+        this.modalMessage = "未定义的外设";
+        this.showModal = true;
+      }
+    },
+    increase(periph) {
+      if (periph == "LED" || periph == "SW" || periph == "BTN")
+      {
+        if (this.available_pin>0) this[periph] +=1;
+        else 
+        {
+          this.modalMessage = "管脚数量不足";
+          this.showModal = true;
+        }
+      }
+      else if (periph == "HEX")
+      {
+        if (this[periph]==0 && this.available_pin>=7) this[periph] +=1;
+        else 
+        {
+          if (this[periph]>0) this.modalMessage = "暂时最多只能有一个HEX数码管";
+          else this.modalMessage = "管脚数量不足";
+          this.showModal = true;
+        }
+      }
+      else if (periph == "UART")
+      {
+        if (this[periph]==0) this[periph] +=1;
+        else 
+        {
+          this.modalMessage = "暂时最多只能有一个UART串口";
+          this.showModal = true;
+        }
+      }
+    },
+    validateInput(event,periph) {
+      let value = parseInt(event.target.value);
+      if (isNaN(value)) value = 0; // Handle non-number inputs
+      if (periph == "LED" || periph == "SW" || periph == "BTN")
+      {
+        if (value > this.available_pin+this[periph]) this[periph]=this.available_pin+this[periph]
+        else if (value >= 0) this[periph]=value
+        else this[periph]=0
+      }
+      else if (periph == "HEX")
+      {
+        if (value>=1 && this.available_pin+7*this[periph]>7) this[periph]=1
+        else this[periph]=0
+      }
+      else if (periph == "UART")
+      {
+        if (value>=1) this[periph]=1
+        else this[periph]=0
+      }
+    }
   },
-  beforeUnmount() {
-    emitter.off("dispatch-xdc");
-  },
-};
+  // beforeUnmount() {
+  //   emitter.off("dispatch-xdc");
+  // },
+}
 </script>
 <style>
 @import "room.css";
+.text_padding {
+  padding: 0px 15px;
+}
+.input_padding {
+  padding: 0px 15px;
+  max-width: 100px;
+
+}
 </style>
